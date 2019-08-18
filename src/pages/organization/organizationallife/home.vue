@@ -12,7 +12,7 @@
     </div>
     <Row :gutter="20">
       <Col>
-        <Card class="border" :border="false" :dis-hover="true">
+        <Card class="border" :bordered="false" :dis-hover="true">
           <p slot="title">组织生活统计</p>
           <Row :gutter="15">
             <Col :span="24">

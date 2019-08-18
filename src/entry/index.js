@@ -10,6 +10,7 @@ import axios, {
 } from '@/api/axios'
 import '@/utils/iview'
 import '@/utils/extend'
+import globalComponent from '@/components/global'
 // import common from '@/components/common/common'
 import * as custom from '@/filter/filter'
 // import './style/reset.less'
@@ -23,7 +24,7 @@ import ZwExam from '@/assets/images/default-exam.png'
 import ZwOrganization from '@/assets//images/default-organization.png'
 import ZwSite from '@/assets/images/default-site.png'
 import ZwAvatar from '@/assets/images/avatar.png'
-
+Vue.use(globalComponent)
 //axios 401回调
 CallBack.unauthorized = () => {
     store.dispatch('loginOut').then(res => {

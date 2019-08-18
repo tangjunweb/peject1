@@ -46,7 +46,7 @@ export default [{
             displayName: '组织生活',
             type: 1
         }, {
-            url: '/organization/organizationallife',
+                url: '/organization/organizationalupload',
             iconPath: '@/assets/images/login-bottom.png',
             displayName: '组织生活上传管理',
             type: 1

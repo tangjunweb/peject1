@@ -125,6 +125,15 @@ export default [{
             ]
         },
         {
+            path: 'organizationalupload',
+            meta: {
+                title: '组织生活上传管理'
+            },
+            component: () =>
+                import ('@/pages/organization/organizationalupload')
+
+        },
+        {
             path: 'forum',
             component: RouterComponent,
             children: [{
