@@ -130,16 +130,5 @@ export default {
             }
         }
     }
-    .card-footer{
-        box-sizing: border-box;
-        padding-right:60px;
-        width: 100%;
-        height:82px;
-        line-height: 82px;
-        background:rgba(255,255,255,1);
-        box-shadow:0px -7px 16px 0px rgba(228,228,235,0.75);
-        border-radius:0px 0px 6px 6px;
-        text-align:right;
-    }
 }
 </style>

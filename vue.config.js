@@ -1,4 +1,6 @@
 const os = require('os');
+
+const path = require('path');
 const webpack = require('webpack');
 const prodLocalConfig = require('./prod-local.config');
 const prodConfig = require('./prod.config');
@@ -6,6 +8,10 @@ const testConfig = require('./test.config');
 const devConfig = require('./dev.config');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 let config = null;
+
+function resolve(dir) {
+    return path.join(__dirname, dir)
+}
 const entrys = {
     admin: {
         // page 的入口
@@ -70,6 +76,28 @@ module.exports = {
         config.plugins.delete('prefetch-admin')
             // 移除 preload 插件
         config.plugins.delete('preload-admin');
+        
+        config.module.rule('svg').uses.clear()
+        config.module
+            .rule('svg-smart')
+            .test(/\.svg$/)
+            .include
+            .add(resolve('src/assets/svgicon/svg'))
+            .end()
+            .use('svg-sprite-loader')
+            .loader('svg-sprite-loader')
+            .options({
+                symbolId: 'icon-[name]'
+            })
+        config.module.rule('file').uses.clear()
+        config.module.rule('file')
+            .test(/\.svg$/)
+            .exclude.add(resolve('src/assets/svgicon/svg'))
+            .end()
+            .use('file-loader')
+            .loader('file-loader')
+    
+           
 
     },
     configureWebpack: {

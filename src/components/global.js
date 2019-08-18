@@ -3,9 +3,11 @@
 
 import TopCard from './topcard'
 import BasScroll from './scroll'
+import SvgIcon from './SvgIcon'
 const globalComponent = {
     TopCard,
-    BasScroll
+    BasScroll,
+    SvgIcon
 }
 
 const install = Vue => {

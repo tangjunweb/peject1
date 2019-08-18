@@ -11,6 +11,7 @@ import axios, {
 import '@/utils/iview'
 import '@/utils/extend'
 import globalComponent from '@/components/global'
+import '@/assets/svgicon'
 // import common from '@/components/common/common'
 import * as custom from '@/filter/filter'
 // import './style/reset.less'

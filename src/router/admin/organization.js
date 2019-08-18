@@ -47,7 +47,14 @@ export default [{
                             title: '上传组织生活计划'
                         },
                         component: () => import('@/pages/organization/manage/plain'),
-                    }
+                    },
+                        {
+                            path: 'signup',
+                            meta: {
+                                title: '报名'
+                            },
+                            component: () => import('@/pages/organization/manage/signup'),
+                        },
                 ],
                 },
 
