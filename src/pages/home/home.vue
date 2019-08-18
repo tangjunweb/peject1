@@ -18,7 +18,7 @@
                 </div>
                 <ul class="nav-sub-item" v-if="item.children.length">
                   <router-link :to="i.url || ''" tag="li" v-for="i in item.children" v-if="i.type == 1" :key="i.displayName" :class="{'is-selected':$route.path.includes(i.url)}">
-                    <Icon style="margin-right:11px" v-if="i.iconPath" :type="i.iconPath" />
+                    <!-- <Icon style="margin-right:11px" v-if="i.iconPath" :type="i.iconPath" /> -->
                     <span>{{i.displayName}}</span>
                   </router-link>
                 </ul>
@@ -70,6 +70,7 @@
   </div>
 </template>
 <script>
+import nav from '@/mock/nav'
 import {
   Layout,
   Header,
@@ -101,24 +102,7 @@ export default {
   data() {
     return {
       loading: false,
-      // menu: [
-      //   {
-      //     iconPath: '@/assets/images/login-bottom.png',
-      //     displayName: '平台概况',
-      //     url: '',
-      //     children: [{
-      //       url: '',
-      //       iconPath: '@/assets/images/login-bottom.png',
-      //       displayName: '总体分析',
-      //       type:1
-      //     },{
-      //       url: '',
-      //       iconPath: '@/assets/images/login-bottom.png',
-      //       displayName: '组织空间',
-      //       type:1
-      //     }]
-      //   }
-      // ]
+      menu: nav
     };
   },
   mounted() {
@@ -190,47 +174,55 @@ export default {
       line-height: 1;
       display: flex;
       .nav-item-wrap {
-        width: 130px;
         height: 86px;
-        padding: 20px 0;
+        padding: 20px 10px;
         box-sizing: border-box;
         display: flex; // flex-direction: column;
         justify-content: center;
         align-items: center;
         font-size: 18px;
-        font-weight: 400;
+        font-weight: 500;
         cursor: pointer;
         i.nav-icon,
         .item-title {
-          color: rgba(255, 255, 255, 0.8);
+          color: rgba(255, 255, 255, 0.6);
           -webkit-touch-callout: none;
           -webkit-user-select: none;
           -khtml-user-select: none;
           -moz-user-select: none;
           -ms-user-select: none;
           user-select: none;
-          padding-left: 10px;
+          // padding-left: 10px;
         }
         i {
           font-weight: bold;
         }
         &.router-link-active {
-          height: 90px;
-          padding: 22px 0;
+          // height: 90px;
+          // padding: 22px 0;
           .item-title,
           i.nav-icon {
             color: rgba(255, 255, 255, 1) !important;
           }
-          background: rgb(230, 6, 6);
+          // background: rgb(230, 6, 6);
+          &:after{
+            content: '';
+            position: absolute;
+            bottom: 0;
+            border: 8px solid transparent;
+            border-bottom: 8px solid #fff;
+            width: 0;
+            height: 0;
+          }
         }
         &:hover {
-          height: 90px;
-          padding: 22px 0;
+          // height: 90px;
+          // padding: 22px 0;
           .item-title,
           i.nav-icon {
             color: rgba(255, 255, 255, 1) !important;
           }
-          background: rgb(230, 6, 6);
+          // background: rgb(230, 6, 6);
           .nav-sub-item {
             display: flex;
             z-index: 99;
@@ -252,9 +244,12 @@ export default {
           border-bottom: 1px solid rgba(229, 223, 223, 1);
           box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
           li {
-            padding-left: 57px;
-            padding-right: 24px;
-            border-right: 1px solid #d2c2c2;
+            line-height: 50px;
+            height: 100%;
+            margin-left: 68px;
+            // padding-left: 57px;
+            // padding-right: 24px;
+            // border-right: 1px solid #d2c2c2;
             &:hover {
               .ivu-icon::before,
               span {
@@ -263,7 +258,19 @@ export default {
             }
           }
           .is-selected {
+            position: relative;
             color: @primary-color;
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: 0;
+              width:20px;
+              height:3px;
+              background:rgba(184,35,43,1);
+              border-radius:2px;
+              left: 50%;
+              transform: translateX(-50%)
+            }
           }
         }
       }

@@ -21,8 +21,11 @@ export default [{
                 },
                 {
                     path: 'home',
+                    meta: {
+                        title: '总览'
+                    },
                     component: () =>
-                        import ( /* webpackChunkName: "organizationallife" */ '@/pages/organization/organizationallife'),
+                        import ( /* webpackChunkName: "organizationallife" */ '@/pages/organization/organizationallife/home'),
                 },
                 {
                     path: 'manager',
