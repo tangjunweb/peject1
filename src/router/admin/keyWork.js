@@ -6,50 +6,102 @@ export default [{
     },
     component: RouterComponent,
     children: [{
-            path: '/',
-            redirect: 'all',
+        path: '/',
+        redirect: 'all',
+    },
+    {
+        path: 'all',
+        component: RouterComponent,
+        meta: {
+            title: '总览'
         },
-        {
-            path: 'all',
-            component: RouterComponent,
-            meta: {
-                title: '总览'
-            },
-            children: [{
-                path: '/',
-                redirect: {
-                    path: 'index'
-                }
-            }, {
-                path: 'index',
-                component: () =>
-                    import ( /* webpackChunkName: "manager-party-home" */ '@/pages/keyWork/all')
-            }]
+        children: [{
+            path: '/',
+            redirect: {
+                path: 'index'
+            }
+        }, {
+            path: 'index',
+            component: () =>
+                import('@/pages/keyWork/all')
+        }]
+    },
+    {
+        path: 'devwork',
+        component: RouterComponent,
+        meta: {
+            title: '发展党员工作',
+        },
+        children: [{
+            path: '/',
+            redirect: 'devwork'
         },
         {
             path: 'devwork',
+            component: () =>
+                import('@/pages/keyWork/devwork/devwork')
+
+        },
+        {
+            path: 'create',
+            name: '加入党积极分子',
+            component: () =>
+                import( /* webpackChunkName: "manager-organization-create" */ '@/pages/keyWork/devwork/create'),
+            meta: {
+                title: '加入党积极分子',
+            },
+        }]
+    },
+    {
+        path: 'summary',
+        component: RouterComponent,
+        meta: {
+            title: '汇总',
+        },
+        children: [{
+            path: '/',
+            redirect: 'index'
+        }, {
+            path: 'index',
+            component: () =>
+                import('@/pages/keyWork/summary/index')
+        },
+        {
+            path: 'detail',
+            name: '汇总详情',
+            component: () =>
+                import('@/pages/keyWork/summary/detail'),
+            meta: {
+                title: '汇总详情',
+            },
+        }
+        ]
+    },
+        {
+            path: 'partyLife',
             component: RouterComponent,
             meta: {
-                title: '发展党员工作',
+                title: '党支部组织生活',
             },
             children: [{
-                    path: '/',
-                    redirect: 'devwork',
+                path: '/',
+                redirect: 'index'
+            }, {
+                path: 'index',
+                component: () =>
+                    import('@/pages/keyWork/partyLife/index')
+            },
+            {
+                path: 'detail',
+                name: '党支部组织生活详情',
+                component: () =>
+                    import('@/pages/keyWork/partyLife/detail'),
+                meta: {
+                    title: '党支部组织生活详情',
                 },
-                {
-                    path: 'devwork',
-                    component: () =>
-                        import ( /* webpackChunkName: "manager-organization-home" */ '@/pages/keyWork/devwork/devwork'),
-                },
-                {
-                    path: 'create',
-                    component: () =>
-                        import ( /* webpackChunkName: "manager-organization-create" */ '@/pages/keyWork/devwork/create'),
-                    meta: {
-                        title: '新增党员',
-                    },
-                }
+            }
             ]
         }
     ]
-}]
+}
+]

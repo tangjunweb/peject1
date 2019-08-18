@@ -1,7 +1,7 @@
 <template>
     <div>
         <Card v-bind="$attrs">
-            <p slot="title">{{$route.meta.title}}</p>
+            <p slot="title">{{$route.meta.title || $route.matched[$route.matched.length - 2].meta.title}}</p>
             <slot></slot>
         </Card>
     </div>
@@ -11,6 +11,9 @@ import { Card } from "iview";
 export default {
     components: {
         Card
-    }
+    },
+    mounted() {
+
+    },
 }
 </script>

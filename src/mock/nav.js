@@ -4,17 +4,14 @@ export default [{
     url: '/basic',
     children: [{
         url: '/basic/analyse',
-        iconPath: '@/assets/images/login-bottom.png',
         displayName: '总体分析',
         type: 1
     },
     {
         url: '/basic/organizational-space',
-        iconPath: '@/assets/images/login-bottom.png',
         displayName: '组织空间',
         type: 1
-    }
-    ]
+    }]
 },
 
 
@@ -24,13 +21,19 @@ export default [{
     url: '/keyWork',
     children: [{
         url: '/keyWork/all',
-        iconPath: '@/assets/images/login-bottom.png',
         displayName: '总览',
         type: 1
     }, {
         url: '/keyWork/devwork',
-        iconPath: '@/assets/images/login-bottom.png',
         displayName: '发展党员工作',
+        type: 1
+    }, {
+        url: '/keyWork/summary',
+        displayName: '汇总',
+        type: 1
+    }, {
+        url: '/keyWork/partyLife',
+        displayName: '党支部组织生活',
         type: 1
     }]
 },
@@ -46,7 +49,7 @@ export default [{
         displayName: '组织生活',
         type: 1
     }, {
-        url: '/organization/organizationallife',
+        url: '/organization/organizationalupload',
         iconPath: '@/assets/images/login-bottom.png',
         displayName: '组织生活上传管理',
         type: 1
