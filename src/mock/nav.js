@@ -54,6 +54,11 @@ export default [{
         displayName: '组织生活上传管理',
         type: 1
 
+    }, {
+        url: '/organization/organizationalAplay',
+        displayName: '组织生活审核管理',
+        type: 1
+
     }]
 },
 

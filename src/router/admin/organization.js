@@ -149,6 +149,15 @@ export default [{
 
         },
         {
+            path: 'organizationalAplay',
+            meta: {
+                title: '组织生活审核管理'
+            },
+            component: () =>
+                import('@/pages/organization/organizationalAplay')
+
+        },
+        {
             path: 'forum',
             component: RouterComponent,
             children: [{
