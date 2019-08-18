@@ -46,6 +46,7 @@
                 </FormItem>
                 <FormItem> -->
                 <Button
+                 style="margin-left:18px"
                 type="primary"
                 >查询</Button>
                 <Button
@@ -58,7 +59,7 @@
                 >上传组织生活</Button>
       </FormItem>
     </Form>
-            <Table :show-header="false" :loading="loading" stripe :columns="columns" :data="data"></Table>
+            <Table :loading="loading" stripe :columns="columns" :data="data"></Table>
             </Card>
       </Col>
     </Row>
@@ -87,12 +88,37 @@ export default {
             searchParams: {
                 month: ''
             },
-            total: 0,
+            total: 1,
             params: {
                 MaxResultCount: 9,
                 SkipCount: 0,
                 pageIndex: 1
             },
+            columns: [
+                    {
+                        title: '主题',
+                        key: 'name'
+                    },
+                    {
+                        title: '会议类型',
+                        key: 'age'
+                    },
+                    {
+                        title: '开展组织',
+                        key: 'address'
+                    },
+                    {
+                        title: '开展时间',
+                        key: 'address'
+                    },
+                    {
+                        title: '状态',
+                        key: 'address'
+                    },
+                    {
+                        title: '操作'
+                    }
+                ],
             treeData: [{
                     expand: true,
                     title: '上一级党组织',
