@@ -33,13 +33,22 @@ export default [{
                         title: '组织生活管理'
                     },
                     component: RouterComponent,
-                    children: [{
+                    children: [
+                        {
                         path: 'detail',
                         meta: {
                             title: '组织生活详情'
                         },
                         component: () => import('@/pages/organization/manage'),
-                    }],
+                    },
+                    {
+                        path: 'plain',
+                        meta: {
+                            title: '上传组织生活计划'
+                        },
+                        component: () => import('@/pages/organization/manage/plain'),
+                    }
+                ],
                 },
 
                 {
