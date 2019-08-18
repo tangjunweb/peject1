@@ -28,6 +28,21 @@ export default [{
                         import ( /* webpackChunkName: "organizationallife" */ '@/pages/organization/organizationallife/home'),
                 },
                 {
+                    path: 'manage',
+                    meta: {
+                        title: '组织生活管理'
+                    },
+                    component: RouterComponent,
+                    children: [{
+                        path: 'detail',
+                        meta: {
+                            title: '组织生活详情'
+                        },
+                        component: () => import('@/pages/organization/manage'),
+                    }],
+                },
+
+                {
                     path: 'manager',
                     component: RouterComponent,
                     children: [{
