@@ -1,0 +1,116 @@
+@import './common.less';
+
+@assets-img: '../assets/'; //图片基础路径
+
+//定义flex
+.flex(@justify-content: center, @align-items: center, @direction: row) when (iskeyword(@justify-content)), (iskeyword(@align-items)),(iskeyword(@direction)){
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: @justify-content;
+  align-items: @align-items;
+  flex-direction: @direction
+}
+
+//定义背景图片
+.commonBack(@url) when (isstring(@url)){
+  background: url("@{assets-img}@{url}") no-repeat center;
+  background-size: 100%;
+}
+
+//定义全屏
+.coverScreen(@position: absolute, @backColor: #fff) when (iskeyword(@position)), (iscolor(@backColor)){
+  position: @position;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: @backColor;
+}
+//定义居中
+.center(@position: absolute) when (iskeyword(@position)){
+  position: @position;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+//定义上下居中
+.ct(@position: absolute) when (iskeyword(@position)){
+  position: @position;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+//定义左右居中
+.cl(@position: absolute) when (iskeyword(@position)){
+  position: @position;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+//定义字体大小颜色位置
+.font(@font-size, @color, @text-align: left) when (ispixel(@font-size)), (iscolor(@color)), (iskeyword(@text-align)) {
+  font-size: @font-size;
+  color: @color;
+  text-align: @text-align;
+}
+
+//定义高宽
+.wh(@w, @h) when (ispixel(@w))or(ispercentage(@w)), (ispixel(@h))or(ispercentage(@h)){
+  width: @w;
+  height: @h;
+}
+
+//定义boxSizing
+.boxSizing(@boxSizing:border-box) when (iskeyword(@boxSizing)) {
+    -webkit-box-sizing: @boxSizing;
+    -moz-box-sizing: @boxSizing;
+    -ms-box-sizing: @boxSizing;
+    -o-box-sizing: @boxSizing;
+    box-sizing: @boxSizing;
+}
+
+//定义盒子阴影
+.boxShadow(...){
+    -webkit-box-shadow: @arguments;
+    -moz-box-shadow: @arguments;
+    -ms-box-shadow: @arguments;
+    -o-box-shadow: @arguments;
+    box-shadow: @arguments;
+ }
+
+ //定义文字阴影
+.textShadow(...){
+    -webkit-text-shadow: @arguments;
+    -moz-text-shadow: @arguments;
+    -ms-text-shadow: @arguments;
+    -o-text-shadow: @arguments;
+    text-shadow: @arguments;
+}
+
+//定义transition
+
+.transition(...) {
+    -webkit-transition: @arguments;
+    -moz-transition: @arguments;
+    -ms-transition: @arguments;
+    -o-transition: @arguments;
+    transition:@arguments;
+}
+
