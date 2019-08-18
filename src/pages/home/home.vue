@@ -153,6 +153,7 @@ export default {
     background: #B8232B;
     padding: 6px 50px;
     color: #fff;
+    margin-top:50px;
   } // 管理端主题
   .layout-header {
     width: 100%;
@@ -373,6 +374,7 @@ export default {
 #lhyj-content {
   padding: 128px 52px 0 61px;
   box-sizing: border-box;
+  margin-bottom:100px;
 }
 
 .layout-right {
