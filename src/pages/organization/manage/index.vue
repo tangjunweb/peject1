@@ -91,14 +91,17 @@
                 </TabPane>
                 <TabPane label="参会情况" name="name3">
                     <div>
-                        <Tabs type="card">
-                            <TabPane label="党员大会"></TabPane>
-                            <TabPane label="党支部委员会"></TabPane>
-                            <TabPane label="党小组会"></TabPane>
-                            <TabPane label="党课"></TabPane>
-                            <TabPane label="党内集中活动"></TabPane>
-                        </Tabs>
-                        <Table :loading="loading" stripe :columns="columns" :data="datatable"></Table>
+                        <template>
+                            <Tabs type="card" name='31'>
+                                <TabPane label="党员大会"></TabPane>
+                                <TabPane label="党支部委员会"></TabPane>
+                                <TabPane label="党小组会"></TabPane>
+                                <TabPane label="党课"></TabPane>
+                                <TabPane label="党内集中活动"></TabPane>
+                            </Tabs>
+                        </template>
+               
+                        <Table :loading="loading" stripe :columns="columns" :data="datatable"></Table> -->
                     </div>
                 </TabPane>
                 <TabPane label="活动纪实" name="name4">

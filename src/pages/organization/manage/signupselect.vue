@@ -70,19 +70,28 @@
             </div>
             </Col>
         </Row>
+        <OrinaglPlainDilaog :visible.sync='showDialog' ref='OrinaglPlainDilaog'></OrinaglPlainDilaog>
     </div>
 </template>
 <script>
+import OrinaglPlainDilaog from './components/OrinaglPlainDilaog'
 import { Card, Select, RadioGroup, Radio } from 'iview'
 export default {
     components: {
+        OrinaglPlainDilaog,
         Card,
         Select,
         RadioGroup,
         Radio
     },
+    methods: {
+       confirm () {
+           this.$refs.OrinaglPlainDilaog.submit()
+       }
+    },
     data() {
         return {
+            showDialog: true,
             formValidate: {
                 timeRange: '',
                 startTime: '',

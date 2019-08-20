@@ -25,9 +25,10 @@ const router = new Router({
     routes: [{
             path: '/',
             redirect: () => { //重定向到第一个权限菜单
-                if (store.state.permissions.length && store.state.permissions[0].url) {
-                    return store.state.permissions[0].url
-                }
+                return '/login'
+                // if (store.state.permissions.length && store.state.permissions[0].url) {
+                //     return store.state.permissions[0].url
+                // }
             },
             component: () =>
                 import ('@/pages/home/home'), //导航
