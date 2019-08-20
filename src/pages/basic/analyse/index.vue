@@ -359,14 +359,14 @@ export default {
     }
   }
   .top-card {
-    .ivu-card-head {
-      padding: 30px;
-      p {
-        font-size: 20px;
-        font-weight: bold;
-        color: rgba(26, 26, 26, 1);
-      }
-    }
+    // .ivu-card-head {
+    //   padding: 30px;
+    //   p {
+    //     font-size: 20px;
+    //     font-weight: bold;
+    //     color: rgba(26, 26, 26, 1);
+    //   }
+    // }
     .ivu-card-body {
       display: flex;
       flex-direction: row;
@@ -381,12 +381,12 @@ export default {
       width: 90px;
       display: inline-block;
       font-size: 14px;
-      font-weight: 500;
+     // font-weight: 500;
       color: rgba(102, 102, 102, 1);
     }
     .card-item-name {
       font-size: 14px;
-      font-weight: bold;
+     // font-weight: bold;
       color: rgba(51, 51, 51, 1);
     }
     .card-item-p1 {
@@ -409,8 +409,8 @@ export default {
         margin: 10px 14px 0 21px;
       }
       p {
-        font-size: 16px;
-        font-weight: 500;
+        // font-size: 16px;
+        // font-weight: 500;
         color: rgba(102, 102, 102, 1);
       }
       span {
@@ -425,14 +425,14 @@ export default {
   }
   .bottom-card {
     margin-bottom: 60px;
-    .ivu-card-head {
-      padding: 30px;
-      p {
-        font-size: 20px;
-        font-weight: bold;
-        color: rgba(26, 26, 26, 1);
-      }
-    }
+    // .ivu-card-head {
+    //   padding: 30px;
+    //   p {
+    //     font-size: 20px;
+    //     font-weight: bold;
+    //     color: rgba(26, 26, 26, 1);
+    //   }
+    // }
     .ivu-card-body {
       padding: 0;
     }
@@ -457,14 +457,14 @@ export default {
         width: 90%;
         padding-left: 30px;
         margin-top: 38px;
-        font-size: 18px;
+        // font-size: 18px;
         color: rgba(26, 26, 26, 1);
         position: relative;
         &:before {
           content: '';
           position: absolute;
           left: 0;
-          top: 6px;
+          top: 1px;
           width: 16px;
           height: 18px;
           background: url("~@/assets/images/kaizhan.png") left top no-repeat;

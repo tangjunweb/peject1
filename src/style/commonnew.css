@@ -9,3 +9,199 @@
   border-radius: 0px 0px 6px 6px;
   text-align: right;
 }
+.card-footer .confirm {
+  width: 111px;
+  background: #c82721;
+  border-radius: 3px;
+}
+.card-footer .quxiao {
+  width: 100px;
+  border: 1px solid #c82721;
+  border-radius: 3px;
+}
+.ivu-modal-header {
+  background: #c82721;
+}
+.ivu-modal-header .ivu-modal-header-inner {
+  color: #fff;
+}
+.ivu-modal-close .ivu-icon-ios-close {
+  color: #fff !important;
+}
+.ivu-modal-footer .ivu-btn-primary {
+  background: #c82721;
+}
+.ivu-modal-footer .ivu-btn-text {
+  border: 1px solid #c82721;
+  border-radius: 3px;
+  color: #C82721;
+}
+.ivu-modal-footer .ivu-btn-text:hover {
+  border: 1px solid #c82721;
+  border-radius: 3px;
+  color: #C82721;
+}
+ul.formLine {
+  margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+}
+ul.formLine li {
+  padding-left: 40px;
+  min-height: 54px;
+  border-bottom: 1px solid #DFE5F2;
+  display: flex;
+  align-items: center;
+  width: 50%;
+  box-sizing: border-box;
+  padding: 15px 0;
+}
+ul.formLine li.block {
+  width: 100%;
+}
+ul.formLine .orginalmanage-topcard-title {
+  width: 156px;
+  height: 15px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #666666;
+}
+ul.formLine .orginalmanage-topcard-body {
+  font-size: 15px;
+  font-weight: 500;
+  color: #333333;
+}
+ul.formLine .orginalmanage-topcard-body .file {
+  display: inline-block;
+  width: 169px;
+  height: 46px;
+  background: #fafafc;
+  border: 1px solid #e9e9f0;
+  margin-right: 10px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #666666;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ul.formLine .orginalmanage-topcard-body .tag {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  width: 67px;
+  height: 23px;
+  margin-right: 5px;
+  background: #b3b2b2;
+}
+ul.formLine .orginalmanage-topcard-body .tag::after {
+  content: '';
+  position: absolute;
+  border: 5px solid transparent;
+  border-left: 5px solid #b3b2b2;
+  right: -10px;
+  top: 50%;
+  margin-top: -4px;
+}
+.orignalUploadPlain .ivu-form-item-content {
+  width: 450px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.orignalUploadPlain .ivu-form-item-content .ivu-input {
+  background: #fafafc;
+}
+.orignalUploadPlain .ivu-form-item-content .ivu-input:focus {
+  background: #ffffff;
+}
+.orignalUploadPlain .search {
+  width: 74px;
+  background: #c82721;
+  border-radius: 3px;
+}
+.orignalUploadPlain .title-red {
+  font-size: 16px;
+  font-weight: 500;
+  color: #b8232b;
+}
+.orignalUploadPlain .card-footer .confirm {
+  width: 111px;
+  background: #c82721;
+  border-radius: 3px;
+}
+.orignalUploadPlain .card-footer .quxiao {
+  width: 100px;
+  border: 1px solid #c82721;
+  border-radius: 3px;
+}
+.upload-list .ivu-form-item-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.upload-list .ivu-form-item-content .ivu-input {
+  width: 450px;
+  background: #fafafc;
+}
+.upload-list .ivu-form-item-content .ivu-input:focus {
+  background: #ffffff;
+}
+.upload-list .ivu-form-item-content .ivu-select {
+  width: 450px;
+  background: #fafafc;
+}
+.upload-list .ivu-form-item-content .ivu-select:focus {
+  background: #ffffff;
+}
+.orginalmanage .orginalmanage-title {
+  width: 150px;
+}
+.oprationtable-btn a {
+  width: 56px;
+  height: 24px;
+  line-height: 24px;
+  background: #31a364;
+  font-size: 13px;
+  font-weight: 500;
+  color: #ffffff;
+  display: inline-block;
+  margin-right: 1px;
+  border-radius: 3px;
+}
+.oprationtable-btn a.large-btn {
+  width: 111px;
+  height: 24px;
+  line-height: 24px;
+  background: #31a364;
+}
+.oprationtable-btn a:hover {
+  color: #ffffff;
+}
+.oprationtable-btn .del-btn {
+  font-size: 13px;
+  font-weight: 500;
+  width: 56px;
+  height: 24px;
+  line-height: 24px;
+  display: inline-block;
+  margin-right: 1px;
+  background: none;
+  color: #999999;
+}
+.oprationtable-btn .del-btn:hover {
+  color: #999999;
+}
+.tabs-list .ivu-tabs-tab {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+.tabs-list .ivu-tabs-tab-active {
+  color: #B8232B;
+}
+.tabs-list .ivu-tabs-tab:hover {
+  color: #B8232B;
+}

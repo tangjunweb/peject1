@@ -3,16 +3,13 @@ export default [{
     path: 'organization',
     component: RouterComponent,
     meta: {
-        title: '组织活动'
+        title: '组织生活'
     },
     children: [{
             path: '/',
             redirect: 'organizationallife'
         },
         {
-            meta: {
-                title: '组织生活'
-            },
             path: 'organizationallife',
             component: RouterComponent,
             children: [{
@@ -25,236 +22,109 @@ export default [{
                         title: '总览'
                     },
                     component: () =>
-                        import ( /* webpackChunkName: "organizationallife" */ '@/pages/organization/organizationallife/home'),
-                },
-                {
-                    path: 'manage',
-                    meta: {
-                        title: '组织生活管理'
-                    },
-                    component: RouterComponent,
-                    children: [
-                        {
-                        path: 'detail',
-                        meta: {
-                            title: '组织生活详情'
-                        },
-                        component: () => import('@/pages/organization/manage'),
-                    },
-                    {
-                        path: 'plain',
-                        meta: {
-                            title: '上传组织生活计划'
-                        },
-                        component: () => import('@/pages/organization/manage/plain'),
-                    },
-                        {
-                            path: 'signup',
-                            meta: {
-                                title: '报名'
-                            },
-                            component: () => import('@/pages/organization/manage/signup'),
-                        },
-                ],
-                },
-
-                {
-                    path: 'manager',
-                    component: RouterComponent,
-                    children: [{
-                            path: '/',
-                            redirect: 'info'
-                        },
-                        {
-                            path: 'create',
-                            component: () =>
-                                import ( /* webpackChunkName: "organizationallife-manager" */ '@/pages/organization/organizationallife/manager/create'),
-                            meta: {
-                                title: '新增组织生活'
-                            }
-                        }, {
-                            path: 'update',
-                            component: () =>
-                                import ( /* webpackChunkName: "organizationallife-manager" */ '@/pages/organization/organizationallife/manager/create'),
-                            meta: {
-                                title: '修改组织生活'
-                            }
-                        },
-                        {
-                            path: 'info',
-                            meta: {
-                                title: '组织生活管理'
-                            },
-                            component: () =>
-                                import ( /* webpackChunkName: "organizationallife-manager" */ '@/pages/organization/organizationallife/manager/info')
-                        },
-                        {
-                            path: 'list',
-                            meta: {
-                                title: '组织生活管理列表'
-                            },
-                            component: () =>
-                                import ( /* webpackChunkName: "organizationallife-manager" */ '@/pages/organization/organizationallife/manager/list')
-                        }, {
-                            path: 'meetinginfo',
-                            meta: {
-                                title: '会议详情'
-                            },
-                            component: () =>
-                                import ( /* webpackChunkName: "organizationallife-manager" */ '@/pages/organization/organizationallife/manager/meetinginfo')
-                        },
-                        {
-                            path: 'distributive',
-                            meta: {
-                                title: '分配参会人员'
-                            },
-                            component: () =>
-                                import ( /* webpackChunkName: "organizationallife-manager" */ '@/pages/organization/organizationallife/manager/distributive')
-                        },
-                        {
-                            path: 'meetingOffWork',
-                            meta: {
-                                title: '请假审批'
-                            },
-                            component: () =>
-                                import ( /* webpackChunkName: "organizationallife-manager" */ '@/pages/organization/organizationallife/manager/meetingOffWork')
-                        },
-                    ]
-                },
-                {
-                    path: 'plan',
-                    component: RouterComponent,
-                    meta: {
-                        title: '组织生活计划制定'
-                    },
-                    children: [{
-                            path: '/',
-                            redirect: 'home'
-                        }, {
-                            path: 'home',
-                            component: () =>
-                                import ( /* webpackChunkName: "organizationallife-plan" */ '@/pages/organization/organizationallife/plan'),
-                        },
-                        {
-                            path: 'create',
-                            meta: {
-                                title: '新增组织生活计划'
-                            },
-                            component: () =>
-                                import ( /* webpackChunkName: "organizationallife-plan" */ '@/pages/organization/organizationallife/plan/create'),
-                        },
-                        {
-                            path: 'meetinginfo',
-                            meta: {
-                                title: '组织生活计划详情'
-                            },
-                            component: () =>
-                                import ( /* webpackChunkName: "organizationallife-plan" */ '@/pages/organization/organizationallife/plan/create'),
-                        }
-                    ]
+                        import ('@/pages/organization/organizationallife/home'),
                 }
             ]
         },
         {
-            path: 'organizationalupload',
+            path: 'manage',
             meta: {
-                title: '组织生活上传管理'
+                title: '我的组织生活'
             },
-            component: () =>
-                import ('@/pages/organization/organizationalupload')
-
+            component: RouterComponent,
+            children: [{
+                    path: '/',
+                    redirect: 'home'
+                },
+                {
+                    path: 'home',
+                    // meta: {
+                    //     title: '我的组织生活'
+                    // },
+                    component: () =>
+                        import ('@/pages/organization/manage/home'),
+                },
+                {
+                    path: 'detail',
+                    meta: {
+                        title: '组织生活详情'
+                    },
+                    name: '组织生活详情',
+                    component: () =>
+                        import ('@/pages/organization/manage'),
+                },
+                {
+                    path: 'plain',
+                    meta: {
+                        title: '上传组织生活计划'
+                    },
+                    name: '上传组织生活计划',
+                    component: () =>
+                        import ('@/pages/organization/manage/plain'),
+                },
+                {
+                    path: 'signup',
+                    meta: {
+                        title: '报名'
+                    },
+                    name: '填写报名',
+                    component: () =>
+                        import ('@/pages/organization/manage/signup'),
+                }, {
+                    path: 'signupselect',
+                    meta: {
+                        title: '报名'
+                    },
+                    name: '选择报名',
+                    component: () =>
+                        import ('@/pages/organization/manage/signupselect'),
+                }, {
+                    path: 'uploadactivity',
+                    meta: {
+                        title: '上传活动纪实'
+                    },
+                    name: '上传活动纪实',
+                    component: () =>
+                        import ('@/pages/organization/manage/uploadactivity'),
+                }
+            ],
         },
         {
             path: 'organizationalAplay',
             meta: {
                 title: '组织生活审核管理'
             },
-            component: () =>
-                import('@/pages/organization/organizationalAplay')
-
-        },
-        {
-            path: 'forum',
             component: RouterComponent,
             children: [{
                     path: '/',
-                    redirect: 'home'
+                    redirect: 'organizationalAplay'
                 },
                 {
-                    path: 'home',
-                    meta: {
-                        title: '活动互动'
-                    },
+                    path: 'organizationalAplay',
                     component: () =>
-                        import ( /* webpackChunkName: "organizationa-forum" */ '@/pages/organization/forum'),
+                        import ('@/pages/organization/organizationalAplay')
                 },
                 {
-                    path: 'info',
+                    path: 'aplay',
                     meta: {
-                        title: '活动互动详情'
+                        title: '组织生活审核'
                     },
+                    name: '组织生活审核',
                     component: () =>
-                        import ( /* webpackChunkName: "organizationa-forum" */ '@/pages/organization/forum/info'),
+                        import ('@/pages/organization/organizationalAplay/aplay')
                 },
                 {
-                    path: 'create',
+                    path: 'detail',
                     meta: {
-                        title: '发起活动互动'
+                        title: '查看详情'
                     },
+                    name: '查看详情',
                     component: () =>
-                        import ( /* webpackChunkName: "organizationa-forum" */ '@/pages/organization/forum/create'),
+                        import ('@/pages/organization/manage')
                 },
+            ]
 
-                {
-                    path: 'update',
-                    meta: {
-                        title: '修改活动互动'
-                    },
-                    component: () =>
-                        import ( /* webpackChunkName: "organizationa-forum" */ '@/pages/organization/forum/create'),
-                },
-                {
-                    path: 'vote',
-                    meta: {
-                        title: '投票管理'
-                    },
-                    component: () =>
-                        import ( /* webpackChunkName: "organizationa-forum" */ '@/pages/organization/forum/vote'),
-                },
-            ]
-        },
-        {
-            path: 'suggestion',
-            component: RouterComponent,
-            meta: {
-                title: '意见建议'
-            },
-            children: [{
-                    path: '/',
-                    redirect: 'home'
-                },
-                {
-                    path: 'home',
-                    component: () =>
-                        import ( /* webpackChunkName: "organizationa-suggestion" */ '@/pages/organization/suggestion'),
-                },
-                {
-                    path: 'examine',
-                    meta: {
-                        title: '待处理',
-                    },
-                    component: () =>
-                        import ( /* webpackChunkName: "organizationa-suggestion" */ '@/pages/organization/suggestion/examine'),
-                },
-                {
-                    path: 'info',
-                    meta: {
-                        title: '详情',
-                    },
-                    component: () =>
-                        import ( /* webpackChunkName: "organizationa-suggestion" */ '@/pages/organization/suggestion/info'),
-                }
-            ]
+
         }
     ]
 }]

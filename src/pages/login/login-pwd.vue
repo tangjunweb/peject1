@@ -115,11 +115,11 @@ export default {
           this.$store
             .dispatch("userLogin", model)
             .then(res => {
-                this.$router.push("/basic/analyse");
+              this.$router.push("/basic/analyse");
               // if (this.$store.state.systemType == "adminAndUser") {
               //   this.$router.push("/enter");
               // }
-              
+
               //  if (this.$store.state.systemType == "admin") {
               //   this.$store.dispatch("getCurrentUserPermissionNames");
               //   this.$router.push("/main");

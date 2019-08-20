@@ -85,7 +85,6 @@ export default {
 
 .search {
   width: 110px;
-  height: 32px;
   background: rgba(200, 39, 33, 1);
   border-radius: 3px;
   margin-right: 14px;
@@ -93,7 +92,6 @@ export default {
 }
 .reset {
   width: 110px;
-  height: 32px;
   border: 1px solid rgba(200, 39, 33, 1);
   border-radius: 3px;
 }

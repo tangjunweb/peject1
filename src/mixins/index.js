@@ -33,7 +33,7 @@ export const SkipCountExtend = {
         },
     },
     watch: {
-        resetTotal(n){
+        resetTotal(n) {
             console.log(n)
         },
         searchParams: {
@@ -49,7 +49,7 @@ export const SkipCountExtend = {
                 this.resetTotal = true;
             }
         },
-        "params.PageIndex"(newValue, oldValue) {
+        "params.PageIndex" (newValue, oldValue) {
             if (newValue == 1) {
                 this.params = {
                     MaxResultCount: 10,

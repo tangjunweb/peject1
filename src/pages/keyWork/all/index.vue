@@ -2,7 +2,9 @@
   <div class="organization-life">
     <div>
       <div class="ivu-card organization-body">
-        <div class="organization-body-head"></div>
+        <div class="organization-body-head">
+          <img src="@/assets/images/earlywarning.png" alt>
+        </div>
         <div class="organization-body-main">
           <span>预警信息</span>
           <p>本月固定党日还未开展，请及时开展</p>
@@ -18,72 +20,72 @@
         <div class="next">
           <Row :span="24" :gutter="16">
             <Col span="6">
-              <Card :dis-hover="true">
-                <div>
-                  <p>固定党日</p>
-                  <span class="times">3</span>
-                  <div class="col-span-con">
-                    <span class="ci-lv">一般每月 / 1次</span>
-                    <span class="com-w">
-                      已开展
-                      <span>1</span>
-                      <span>期</span>
-                    </span>
-                  </div>
+            <Card :dis-hover="true">
+              <div>
+                <p>固定党日</p>
+                <span class="times">3</span>
+                <div class="col-span-con">
+                  <span class="ci-lv">一般每月 / 1次</span>
+                  <span class="com-w">
+                    已开展
+                    <span>1</span>
+                    <span>期</span>
+                  </span>
                 </div>
-              </Card>
-              <div class="card-bttom"></div>
+              </div>
+            </Card>
+            <div class="card-bttom"></div>
             </Col>
             <Col span="6">
-              <Card :dis-hover="true">
-                <div>
-                  <p>党支部委员会</p>
-                  <span class="times">3</span>
-                  <div class="col-span-con">
-                    <span class="ci-lv">一般每月 / 1次</span>
-                    <span class="com-w">
-                      已开展
-                      <span>1</span>
-                      <span>期</span>
-                    </span>
-                  </div>
+            <Card :dis-hover="true">
+              <div>
+                <p>党支部委员会</p>
+                <span class="times">3</span>
+                <div class="col-span-con">
+                  <span class="ci-lv">一般每月 / 1次</span>
+                  <span class="com-w">
+                    已开展
+                    <span>1</span>
+                    <span>期</span>
+                  </span>
                 </div>
-              </Card>
-               <div class="card-bttom" style="background:#EC5015"></div>
+              </div>
+            </Card>
+            <div class="card-bttom" style="background:#EC5015"></div>
             </Col>
             <Col span="6">
-              <Card :dis-hover="true">
-                <div>
-                  <p>党支部党员大会</p>
-                  <span class="times">3</span>
-                  <div class="col-span-con">
-                    <span class="ci-lv">一般每月 / 1次</span>
-                    <span class="com-w">
-                      已开展
-                      <span>1</span>
-                      <span>期</span>
-                    </span>
-                  </div>
+            <Card :dis-hover="true">
+              <div>
+                <p>党支部党员大会</p>
+                <span class="times">3</span>
+                <div class="col-span-con">
+                  <span class="ci-lv">一般每月 / 1次</span>
+                  <span class="com-w">
+                    已开展
+                    <span>1</span>
+                    <span>期</span>
+                  </span>
                 </div>
-              </Card>
-               <div class="card-bttom" style="background:#F96D01"></div>
+              </div>
+            </Card>
+            <div class="card-bttom" style="background:#F96D01"></div>
             </Col>
             <Col span="6">
-              <Card :dis-hover="true">
-                <div>
-                  <p>党课</p>
-                  <span class="times">3</span>
-                  <div class="col-span-con">
-                    <span class="ci-lv">一般每月 / 1次</span>
-                    <span class="com-w">
-                      已开展
-                      <span>1</span>
-                      <span>期</span>
-                    </span>
-                  </div>
+            <Card :dis-hover="true">
+              <div>
+                <p>党课</p>
+                <span class="times">3</span>
+                <div class="col-span-con">
+                  <span class="ci-lv">一般每月 / 1次</span>
+                  <span class="com-w">
+                    已开展
+                    <span>1</span>
+                    <span>期</span>
+                  </span>
                 </div>
-              </Card>
-               <div class="card-bttom" style="background:#FF9302"></div>
+              </div>
+            </Card>
+            <div class="card-bttom" style="background:#FF9302"></div>
             </Col>
           </Row>
         </div>
@@ -118,7 +120,7 @@ export default {
   },
   computed: {},
   methods: {
-    loadData() {}
+    loadData() { }
   }
 };
 </script>
@@ -126,8 +128,9 @@ export default {
 .organization-life .ivu-tabs-nav {
   padding-bottom: 10px !important;
 }
-@variable: .organization-body;
-@{variable} {
+
+@variable:organization-body;
+.@{variable} {
   background: #fff;
   display: flex;
   height: 97px;
@@ -140,6 +143,9 @@ export default {
     height: 97px;
     background: rgba(255, 229, 231, 1);
     border-radius: 6px 0px 0px 6px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
   }
   &-main {
     span {
@@ -156,20 +162,21 @@ export default {
     }
   }
 }
+
 .zuzhi-tongji {
-  .ivu-card-head p {
-    font-size: 20px;
-    font-weight: bold;
-    color: #1a1a1a;
-  }
+  // .ivu-card-head p {
+  //   font-size: 20px;
+  //   font-weight: bold;
+  //   color: #1a1a1a;
+  // }
   .top {
     .top-title {
       position: relative;
       padding-left: 30px;
-      font-size: 18px;
+     // font-size: 18px;
       font-weight: 500;
       color: rgba(26, 26, 26, 1);
-      margin-bottom:26px;
+      margin-bottom: 26px;
       &:before {
         content: "";
         position: absolute;
@@ -184,7 +191,7 @@ export default {
   }
   .next {
     p {
-      font-size: 18px;
+     // font-size: 18px;
       font-weight: 500;
       color: rgba(51, 51, 51, 1);
     }

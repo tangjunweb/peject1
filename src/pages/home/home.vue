@@ -12,13 +12,12 @@
           <ul class="navigator">
             <template v-if="$route.path !='/main' && $route.path !='/enter'">
               <router-link tag="li" :to="(item.children.length ? item.children[0].url : item.url) || ''" :class="['nav-item-wrap',$route.path.indexOf(item.url)  == 0 ? 'router-link-active': '']" v-for="(item, index) in menu" :key="index">
-                <Icon class="nav-icon" :type="item.iconPath" size="20" />
+                <svg-icon :name="item.iconPath" style="font-size:21px"></svg-icon>
                 <div class="nav-item-box">
                   <div class="item-title">{{item.displayName}}</div>
                 </div>
                 <ul class="nav-sub-item" v-if="item.children.length">
                   <router-link :to="i.url || ''" tag="li" v-for="i in item.children" v-if="i.type == 1" :key="i.displayName" :class="{'is-selected':$route.path.includes(i.url)}">
-                    <!-- <Icon style="margin-right:11px" v-if="i.iconPath" :type="i.iconPath" /> -->
                     <span>{{i.displayName}}</span>
                   </router-link>
                 </ul>
@@ -148,12 +147,12 @@ export default {
   position: relative;
   width: 100%;
   overflow-x: hidden;
-  // height:80vw;
+  height: 1080px;
   .ivu-layout-footer {
     background: #B8232B;
     padding: 6px 50px;
     color: #fff;
-    margin-top:50px;
+    margin-top: 50px;
   } // 管理端主题
   .layout-header {
     width: 100%;
@@ -174,6 +173,9 @@ export default {
       overflow: hidden;
       line-height: 1;
       display: flex;
+      .nav-item-box {
+        margin-left: 5px;
+      }
       .nav-item-wrap {
         height: 86px;
         padding: 20px 10px;
@@ -192,21 +194,25 @@ export default {
           -khtml-user-select: none;
           -moz-user-select: none;
           -ms-user-select: none;
-          user-select: none;
-          // padding-left: 10px;
+          user-select: none; // padding-left: 10px;
         }
         i {
           font-weight: bold;
         }
+        .ivu-tooltip {
+          color: rgba(255, 255, 255, 0.6);
+        }
         &.router-link-active {
           // height: 90px;
           // padding: 22px 0;
+          .ivu-tooltip {
+            color: rgba(255, 255, 255, 1) !important;
+          }
           .item-title,
           i.nav-icon {
             color: rgba(255, 255, 255, 1) !important;
-          }
-          // background: rgb(230, 6, 6);
-          &:after{
+          } // background: rgb(230, 6, 6);
+          &:after {
             content: '';
             position: absolute;
             bottom: 0;
@@ -222,8 +228,10 @@ export default {
           .item-title,
           i.nav-icon {
             color: rgba(255, 255, 255, 1) !important;
+          } // background: rgb(230, 6, 6);
+          .ivu-tooltip {
+            color: rgba(255, 255, 255, 1) !important;
           }
-          // background: rgb(230, 6, 6);
           .nav-sub-item {
             display: flex;
             z-index: 99;
@@ -247,8 +255,7 @@ export default {
           li {
             line-height: 50px;
             height: 100%;
-            margin-left: 68px;
-            // padding-left: 57px;
+            margin-left: 68px; // padding-left: 57px;
             // padding-right: 24px;
             // border-right: 1px solid #d2c2c2;
             &:hover {
@@ -265,10 +272,10 @@ export default {
               content: '';
               position: absolute;
               bottom: 0;
-              width:20px;
-              height:3px;
-              background:rgba(184,35,43,1);
-              border-radius:2px;
+              width: 20px;
+              height: 3px;
+              background: rgba(184, 35, 43, 1);
+              border-radius: 2px;
               left: 50%;
               transform: translateX(-50%)
             }
@@ -338,6 +345,13 @@ export default {
       }
     }
   }
+  .layout-footer-center {
+    text-align: center;
+    background: #B8232B;
+    padding: 6px 50px;
+    color: #fff;
+    width: 100%;
+  }
 }
 
 .layout-logo {
@@ -361,20 +375,10 @@ export default {
   margin-right: 20px;
 }
 
-.layout-footer-center {
-  text-align: center;
-  background: #B8232B;
-  padding: 6px 50px;
-  color: #fff;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-}
-
 #lhyj-content {
   padding: 128px 52px 0 61px;
   box-sizing: border-box;
-  margin-bottom:100px;
+  margin-bottom: 100px;
 }
 
 .layout-right {

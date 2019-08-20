@@ -6,77 +6,78 @@ export default [{
     },
     component: RouterComponent,
     children: [{
-        path: '/',
-        redirect: 'all',
-    },
-    {
-        path: 'all',
-        component: RouterComponent,
-        meta: {
-            title: '总览'
-        },
-        children: [{
             path: '/',
-            redirect: {
-                path: 'index'
-            }
-        }, {
-            path: 'index',
-            component: () =>
-                import('@/pages/keyWork/all')
-        }]
-    },
-    {
-        path: 'devwork',
-        component: RouterComponent,
-        meta: {
-            title: '发展党员工作',
+            redirect: 'all',
         },
-        children: [{
-            path: '/',
-            redirect: 'devwork'
+        {
+            path: 'all',
+            component: RouterComponent,
+            meta: {
+                title: '总览'
+            },
+            children: [{
+                path: '/',
+                redirect: {
+                    path: 'index'
+                }
+            }, {
+                path: 'index',
+                component: () =>
+                    import ('@/pages/keyWork/all')
+            }]
         },
         {
             path: 'devwork',
-            component: () =>
-                import('@/pages/keyWork/devwork/devwork')
+            component: RouterComponent,
+            meta: {
+                title: '发展党员工作',
+            },
+            children: [{
+                    path: '/',
+                    redirect: 'devwork'
+                },
+                {
+                    path: 'devwork',
+                    component: () =>
+                        import ('@/pages/keyWork/devwork/devwork')
 
+                },
+                {
+                    path: 'create',
+                    name: '加入党积极分子',
+                    component: () =>
+                        import ('@/pages/keyWork/devwork/create'),
+                    meta: {
+                        title: '加入党积极分子',
+                    },
+                }
+            ]
         },
         {
-            path: 'create',
-            name: '加入党积极分子',
-            component: () =>
-                import( /* webpackChunkName: "manager-organization-create" */ '@/pages/keyWork/devwork/create'),
+            path: 'summary',
+            component: RouterComponent,
             meta: {
-                title: '加入党积极分子',
+                title: '汇总',
             },
-        }]
-    },
-    {
-        path: 'summary',
-        component: RouterComponent,
-        meta: {
-            title: '汇总',
+            children: [{
+                    path: '/',
+                    redirect: 'index'
+                }, {
+                    path: 'index',
+                    component: () =>
+                        import ('@/pages/keyWork/summary/index')
+                },
+                {
+                    path: 'detail',
+                    name: '汇总详情',
+                    component: () =>
+                        import ('@/pages/keyWork/summary/detail'),
+                    meta: {
+                        title: '汇总详情',
+                    },
+                }
+            ]
         },
-        children: [{
-            path: '/',
-            redirect: 'index'
-        }, {
-            path: 'index',
-            component: () =>
-                import('@/pages/keyWork/summary/index')
-        },
-        {
-            path: 'detail',
-            name: '汇总详情',
-            component: () =>
-                import('@/pages/keyWork/summary/detail'),
-            meta: {
-                title: '汇总详情',
-            },
-        }
-        ]
-    },
         {
             path: 'partyLife',
             component: RouterComponent,
@@ -84,24 +85,23 @@ export default [{
                 title: '党支部组织生活',
             },
             children: [{
-                path: '/',
-                redirect: 'index'
-            }, {
-                path: 'index',
-                component: () =>
-                    import('@/pages/keyWork/partyLife/index')
-            },
-            {
-                path: 'detail',
-                name: '党支部组织生活详情',
-                component: () =>
-                    import('@/pages/keyWork/partyLife/detail'),
-                meta: {
-                    title: '党支部组织生活详情',
+                    path: '/',
+                    redirect: 'index'
+                }, {
+                    path: 'index',
+                    component: () =>
+                        import ('@/pages/keyWork/partyLife/index')
                 },
-            }
+                {
+                    path: 'detail',
+                    name: '党支部组织生活详情',
+                    component: () =>
+                        import ('@/pages/keyWork/partyLife/detail'),
+                    meta: {
+                        title: '党支部组织生活详情',
+                    },
+                }
             ]
         }
     ]
-}
-]
+}]

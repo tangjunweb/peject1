@@ -872,7 +872,7 @@ export default {
 <style lang='less'>
 .basic-organizational-space {
   .top-title {
-    font-size: 18px;
+    //font-size: 18px;
     color: #573e41;
     letter-spacing: 3px;
     padding-top: 6px;

@@ -18,40 +18,32 @@
       </Col>
     </Row>
     <Row :gutter="15" type="flex">
-      <Col span="4">
-      <Card class="border" :dis-hover="true" style="height:622px">
-        <bas-scroll ref="bascroll" style="height:100%;width:100%">
-          <p class="title">党组织：</p>
-          <Tree :data="treeData"></Tree>
-        </bas-scroll>
-      </Card>
-      </Col>
-      <Col span="20" style="height:622px">
-      <Card class="border" :dis-hover="true" style="height:100%">
-        <Form ref="searchParams" :model="searchParams" :rules="ruleValidate" inline>
+      <Col span="24" style="height:622px">
+      <Card class="border" :bordered="false" style="height:100%">
+        <Form :model="searchParams" inline>
           <FormItem label="开展月份" :label-width="100">
             <DatePicker format="MM" v-model="searchParams.month" placeholder="选择月份" type="month"></DatePicker>
           </FormItem>
-          <FormItem label="会议类型" :label-width="70">
-            <Select v-model="searchParams.select" clearable style="width:200px" placeholder="请选择党组织">
-              <Option v-for="item in selectList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
+          <FormItem label="会议类型" :label-width="100">
+            <Input style="width:180px" v-model="searchParams.type" ghost placeholder="请选择"></Input>
           </FormItem>
           <FormItem label="主题" :label-width="70">
             <Input style="width:180px" v-model="searchParams.tilte" ghost placeholder="请输入关键词"></Input>
           </FormItem>
           <Button style="margin-left:18px" class="searchbtn" type="primary">查询</Button>
           <Button style="margin-left:18px" class="resetbtn" ghost type="primary">重置</Button>
+          <Button @click="gotoUpload" class="add" type="primary">
+            <span>上传组织生活</span>
+          </Button>
         </Form>
         <Table class="oprationtable-btn" :loading="loading" stripe :columns="columns" :data="data">
           <template slot-scope="{ row, index }" slot="opration">
-            <div class="btnlist">
-              <a @click="detail(row)">查看</a>
-              <a @click="signup(row)">发布</a>
-              <a class="large-btn" @click="upload(row)">活动纪实审核</a>
-              <a @click="aplay(row)">审核</a>
-            </div>
-
+            <a @click="detail(row)">查看</a>
+            <a @click="edit(row)">编辑</a>
+            <a @click="signup(row)">报名</a>
+            <a @click="start(row)">开始</a>
+            <a class="large-btn" @click="upload(row)">上传活动纪实</a>
+            <span class="del-btn" @click="del(row,index)">删除</span>
           </template>
         </Table>
       </Card>
@@ -63,20 +55,21 @@
   </div>
 </template>
 <script>
-import { Tree, Table, Card, Page, Select, DatePicker } from "iview";
+import { Tree, Table, Card, Page, DatePicker } from "iview";
 export default {
   components: {
     Tree,
     Table,
     Card,
-    Page, Select, DatePicker
+    Page, DatePicker
   },
   data() {
     return {
       searchParams: {
-        month: ""
+        month: "",
+        type: "hha",
+        tilte: 'hshhs'
       },
-      selectList: [],
       total: 1,
       params: {
         MaxResultCount: 9,
@@ -106,60 +99,31 @@ export default {
         },
         {
           title: '操作',
+          tooltip: true,
           align: 'center',
           width: '500px',
           slot: 'opration',
         }
       ],
-      treeData: [
-        {
-          expand: true,
-          title: "上一级党组织",
-          children: [
-            {
-              title: "下一级党组织",
-              expand: true
-            },
-            {
-              title: "下一级党组织",
-              expand: true
-            }
-          ]
-        },
-        {
-          expand: true,
-          title: "上一级党组织",
-          children: [
-            {
-              title: "下一级党组织",
-              expand: true
-            },
-            {
-              title: "下一级党组织",
-              expand: true
-            }
-          ]
-        }
-      ],
       nav: [
         {
           color: "#43B9EA",
-          name: "待审核",
+          name: "已报名",
           count: 15
         },
         {
           color: "#47B87A",
-          name: "审核通过",
+          name: "审核未通过 ",
           count: 15
         },
         {
           color: "#C82721",
-          name: "审核未通过",
+          name: "审核通过未开始",
           count: 15
         },
         {
           color: "#A7ADAF",
-          name: "过期未审核",
+          name: "结束待审核",
           count: 15
         }
       ],
@@ -196,23 +160,74 @@ export default {
     };
   },
   mounted() {
-    this.$nextTick(() => {
-      this.$refs.bascroll.updateScroll();
-    });
+
   },
   methods: {
     detail(row) {
       console.log(row)
       this.$router.push({
-        name: "查看详情",
+        name: "组织生活详情",
         query: { obj: row.id, flag: 1 }
       });
     },
-    aplay(row) {
+    //新增--1   编辑--2
+    gotoUpload() {
       this.$router.push({
-        name: "组织生活审核",
+        name: "上传组织生活计划",
+        query: {flag: 1 }
+      });
+    },
+    edit(row) {
+      this.$router.push({
+        name: "上传组织生活计划",
+        query: { obj: row.id, flag: 2 }
+      });
+    },
+    upload(row) {
+       this.$router.push({
+        name: "上传活动纪实",
+        query: { obj: row.id}
+      });
+    },
+    signup(row) {
+      this.$router.push({
+        name: "填写报名",
         query: { obj: row.id }
       });
+      // this.$router.push({
+      //   name: "选择报名",
+      //   query: { obj: row.id }
+      // });
+    },
+    del(row) {
+      this.$Modal.confirm({
+        title: '系统提示',
+        content: `确认删除会议"${row.title}"？`,
+        onOk: () => {
+          DeleteParentMeetingInfoById({
+            id: row.id
+          }).then(res => {
+            this.loadData();
+            this.$Message.success('删除成功');
+          }).catch(err => {
+            this.$Message.error(err);
+          });;
+        }
+      });
+    },
+    start(row) {
+      editList({ ID: row.ID})
+        .then(res => {
+          if (res.data.Success) {
+            this.$Message.success("发布成功！");
+            this.loadData();
+          } else {
+            this.$Message.error(res.data.Error);
+          }
+        })
+        .catch(err => {
+          this.$Message.error(err);
+        });
     }
   }
 };
@@ -228,16 +243,39 @@ export default {
       margin-left: 15px;
     }
   }
-  .searchbtn {
-    width: 80px;
-    background: rgba(200, 39, 33, 1);
-    border-radius: 3px;
-  }
+}
 
-  .resetbtn {
-    width: 80px;
-    border: 1px solid rgba(200, 39, 33, 1);
-    border-radius: 3px;
+.add {
+  width: 139px;
+  background: rgba(200, 39, 33, 1);
+  border-radius: 3px;
+  position: absolute;
+  right: 16px;
+  span {
+    position: relative;
+    padding-left: 20px;
+    &:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 4px;
+      width: 15px;
+      height: 16px;
+      background: url("~@/assets/images/upload-dang.png") left top no-repeat;
+      background-size: 15px 16px;
+    }
   }
+}
+
+.searchbtn {
+  width: 80px;
+  background: rgba(200, 39, 33, 1);
+  border-radius: 3px;
+}
+
+.resetbtn {
+  width: 80px;
+  border: 1px solid rgba(200, 39, 33, 1);
+  border-radius: 3px;
 }
 </style>

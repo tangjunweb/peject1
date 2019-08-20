@@ -6,6 +6,7 @@ import { isEmptyObject, hasAuthority } from '@/utils/util'
 import BasicRoutes from './admin/basic'
 import KeyWorkRoutes from './admin/keyWork'
 import OrganinzationRoutes from './admin/organization'
+import partybuildRoutes from './admin/partybuild'
 import SettingRoutes from './admin/settings'
 Vue.use(Router)
 
@@ -29,18 +30,18 @@ const router = new Router({
                 }
             },
             component: () =>
-                import ( /* webpackChunkName: "home" */ '@/pages/home/home'), //导航
+                import ('@/pages/home/home'), //导航
             children: [{
                     path: 'main',
                     name: 'main',
                     component: () =>
-                        import ( /* webpackChunkName: "home" */ '@/pages/main'), //导航
+                        import ('@/pages/main'), //导航
                 },
 
                 ...BasicRoutes,
                 ...KeyWorkRoutes,
                 ...OrganinzationRoutes,
-                //此处为党建综合服务
+                ...partybuildRoutes,
                 ...SettingRoutes
             ]
         },
@@ -48,7 +49,7 @@ const router = new Router({
             path: '/login',
             name: 'login',
             component: () =>
-                import ( /* webpackChunkName: "login" */ '@/pages/login/login-wrap'), //登录页面
+                import ('@/pages/login/login-wrap'), //登录页面
             children: [{
                     path: '/',
                     name: 'login-redirect',
@@ -59,44 +60,43 @@ const router = new Router({
                     path: 'pwd',
                     name: 'login-pwd',
                     component: () =>
-                        import ( /* webpackChunkName: "login" */ '@/pages/login/login-pwd') //登录页面
+                        import ('@/pages/login/login-pwd') //登录页面
                 },
             ]
         },
         {
             path: '/loginfaceselect',
             component: () =>
-                import ( /* webpackChunkName: "faceSelect" */ '@/pages/common/FaceSelect'),
+                import ('@/pages/common/FaceSelect'),
             name: 'loginfaceselect'
         },
         {
             path: '/retrievepassword',
             component: () =>
-                import ( /* webpackChunkName: "faceSelect" */ '@/pages/common/RetrievePassword'),
+                import ('@/pages/common/RetrievePassword'),
             name: 'retrievepassword'
         },
         {
             path: '/403',
             name: '403',
             component: () =>
-                import ( /* webpackChunkName: "404" */ '@/pages/404/403.vue')
+                import ('@/pages/404/403.vue')
         },
         {
             path: '/404',
             name: '404',
             component: () =>
-                import ( /* webpackChunkName: "404" */ '@/pages/404/404.vue')
+                import ('@/pages/404/404.vue')
         },
         {
             path: '*',
             component: () =>
-                import ( /* webpackChunkName: "404" */ '@/pages/404/404.vue')
+                import ('@/pages/404/404.vue')
         }
 
     ]
 })
 router.beforeEach(async(to, from, next) => {
-    console.log(from, to)
     next()
         // if (to.name == 'login-pwd' && isEmptyObject(store.state.session)) {
         //     next()

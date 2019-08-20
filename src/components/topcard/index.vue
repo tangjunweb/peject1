@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Card v-bind="$attrs">
+        <Card v-bind="$attrs" :bordered="false">
             <p slot="title">{{$route.meta.title || $route.matched[$route.matched.length - 2].meta.title}}</p>
             <slot></slot>
         </Card>
