@@ -34,7 +34,7 @@
                                 </template>
                             </Table>
                             <Button @click="modal=true" class="goupload" style="margin-right:20px" type="primary">
-                                <Icon type="ios-add" size="21" />
+                                <Icon style="margin-top: -3px;" type="ios-add" size="21" />
                                 <span>新增</span>
                             </Button>
                             <span style="position: absolute;left: 100px;">注：最多可上传10个资源清单</span>
@@ -51,7 +51,7 @@
             </Col>
 
         </Row>
-        <Modal title="新增" v-model="modal" class-name="vertical-center-modal" @on-ok="saveOk" ok-text="确认">
+        <Modal title="新增" v-model="modal">
             <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
                 <FormItem label="资源类型：" style="display:block;">
                     <RadioGroup v-model="formInline.radio">
@@ -64,7 +64,10 @@
                     <Input v-model="formInline.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请填写资源内容"></Input>
                 </FormItem>
             </Form>
-
+            <div slot="footer">
+                <Button type="primary" @click="sure">确认</Button>
+                <Button type="text" @click="cancel" ghost>取消</Button>
+            </div>
         </Modal>
     </div>
 </template>
@@ -143,8 +146,14 @@ export default {
 
     },
     methods: {
-        saveOk() {
-
+        close() {
+            this.modal = false
+        },
+        sure() {
+            this.close()
+        },
+        cancel() {
+            this.close()
         }
     }
 }

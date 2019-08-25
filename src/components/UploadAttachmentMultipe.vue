@@ -19,7 +19,7 @@
                 <Alert type="success" show-icon v-else>
                     <span>{{el.name}}</span>
                     <span class="uam-size">{{getSize(el.size)}}kb</span>
-                    <span class="uam-btn" @click="download(el)">下载</span>
+                    <!-- <span class="uam-btn" @click="download(el)">下载</span> -->
                     <span v-if="!disabled" class="uam-btn error" @click="remove(i)">删除</span>
                 </Alert>
                 {{el.percent}}
@@ -53,7 +53,7 @@ export default {
         },
         maxSize: {
             type: Number,
-            default: 200*1024
+            default: 500*1024
         },
         value: {
             type: Array,
@@ -132,11 +132,13 @@ export default {
             }
         },
         onSuccess (response, file, fileList) {
+            console.log(this.list)
             this.$emit('input',this.list.map(e=>{
                 let d = {
                     id: e.id||null,
                     name: e.name,
-                    size: e.size,
+                   // size: e.size,
+                    type: e.type||(e.response ? e.response.result.ext : null),
                     path: e.path||(e.response ? e.response.result.path : null)
                 }
                 if(e.response){

@@ -22,16 +22,18 @@
       <Card class="border" :bordered="false" style="height:100%">
         <Form :model="searchParams" inline>
           <FormItem label="开展月份" :label-width="100">
-            <DatePicker format="MM" v-model="searchParams.month" placeholder="选择月份" type="month"></DatePicker>
+            <DatePicker @on-change="mchange" format="MM" v-model="searchParams.StartMonth" placeholder="选择月份" type="date"></DatePicker>
           </FormItem>
           <FormItem label="会议类型" :label-width="100">
-            <Input style="width:180px" v-model="searchParams.type" ghost placeholder="请选择"></Input>
+            <Select @on-change="change" v-model="searchParams.LifeType" clearable style="width:200px" placeholder="请选择会议类型">
+              <Option v-for="item in selectList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
           </FormItem>
           <FormItem label="主题" :label-width="70">
-            <Input style="width:180px" v-model="searchParams.tilte" ghost placeholder="请输入关键词"></Input>
+            <Input style="width:180px" v-model="searchParams.Name" ghost placeholder="请输入关键词"></Input>
           </FormItem>
-          <Button style="margin-left:18px" class="searchbtn" type="primary">查询</Button>
-          <Button style="margin-left:18px" class="resetbtn" ghost type="primary">重置</Button>
+          <Button style="margin-left:18px" @click="search" class="searchbtn" type="primary">查询</Button>
+          <Button style="margin-left:18px" @click="reset" class="resetbtn" ghost type="primary">重置</Button>
           <Button @click="gotoUpload" class="add" type="primary">
             <span>上传组织生活</span>
           </Button>
@@ -41,9 +43,10 @@
             <a @click="detail(row)">查看</a>
             <a @click="edit(row)">编辑</a>
             <a @click="signup(row)">报名</a>
-            <a @click="start(row)">开始</a>
+            <a v-if="row.lifeState=='已发布'&&istrue" @click="start(row)">开始</a>
+            <a v-if="row.lifeState=='已发布'&&istrue" @click="cancel(row)">取消</a>
             <a class="large-btn" @click="upload(row)">上传活动纪实</a>
-            <span class="del-btn" @click="del(row,index)">删除</span>
+            <span class="del-btn" @click="del(row)">删除</span>
           </template>
         </Table>
       </Card>
@@ -55,47 +58,65 @@
   </div>
 </template>
 <script>
-import { Tree, Table, Card, Page, DatePicker } from "iview";
+import { Tree, Table, Card, Page, DatePicker, Select } from "iview";
+import {
+  GetOrganLifePagedList,
+  DeleteOrganLife,
+  StartOrganLife,
+  CancelOrganLife
+
+} from "@/api/orgazationNew";
+import { SkipCount, ClearParams } from "@/mixins";
+import { getNowFormatDate } from '@/utils/util'
 export default {
+  mixins: [SkipCount, ClearParams],
   components: {
-    Tree,
     Table,
     Card,
-    Page, DatePicker
+    Page, DatePicker, Select
   },
   data() {
+    let that = this;
     return {
+      loading: false,
       searchParams: {
-        month: "",
-        type: "hha",
-        tilte: 'hshhs'
+        StartMonth: '',
+        LifeType: '',
+        Name: '',
+        // Sorting: '',
       },
-      total: 1,
+      istrue: true,
       params: {
-        MaxResultCount: 9,
-        SkipCount: 0,
+        MaxResultCount: 8,//每页条数
+        SkipCount: 0,//页数
         pageIndex: 1
       },
+      total: 1,
       columns: [
         {
           title: "主题",
-          key: "title"
+          key: "title",
+            tooltip:true
         },
         {
           title: "会议类型",
-          key: "type"
+          key: "lifeType"
         },
         {
           title: "开展组织",
-          key: "zuzhi"
+          key: "organName",
+          tooltip:true
         },
         {
           title: "开展时间",
-          key: "time"
+          // key: "startDate",
+          render(h, { row }) {
+            return h('span', getNowFormatDate(row.startDate))
+          }
         },
         {
           title: "状态",
-          key: "zuangtai"
+          key: "lifeState"
         },
         {
           title: '操作',
@@ -127,54 +148,99 @@ export default {
           count: 15
         }
       ],
-      data: [
-        {
-          title: 'John Brown',
-          type: '18',
-          zuzhi: 'zuhu',
-          time: 2018 - 3 - 3,
-          zuangtai: '待审核'
-        },
-        {
-          title: 'John Brown',
-          type: '18',
-          zuzhi: 'zuhu',
-          time: 2018 - 3 - 3,
-          zuangtai: '待审核'
-        },
-        {
-          title: 'John Brown',
-          type: '18',
-          zuzhi: 'zuhu',
-          time: 2018 - 3 - 3,
-          zuangtai: '待审核'
-        },
-        {
-          title: 'John Brown',
-          type: '18',
-          zuzhi: 'zuhu',
-          time: 2018 - 3 - 3,
-          zuangtai: '待审核'
-        }
-      ]
+      data: [],
+      selectList: []
     };
   },
+  created() {
+    // if (this.searchParams.StartMonth) {
+    //   this.searchParams.StartMonth = this.searchParams.StartMonth.getMonth() + 1
+    // }
+  },
   mounted() {
-
+    this.selectList = this.$store.state.baseCode.LifeTypeEnum
+    console.log(this.selectList)
+    this.loadData()
   },
   methods: {
+    loadData() {
+      this.loading = true;
+      let params = JSON.parse(JSON.stringify(this.params));
+      params.SkipCount = this.SkipCount(
+        params.MaxResultCount,
+        params.pageIndex
+      );
+      Object.assign(params, this.searchParams);
+      GetOrganLifePagedList(this.ClearParams(params)).then(res => {
+        this.total = res.totalCount;
+        this.data = res.items;
+          this.loading = false;
+        this.data.map((item, index) => {
+          if (item.lifeState == 0) {
+            item.lifeState = "未开始"
+          } else if (item.lifeState == 1) {
+            item.lifeState = "待审核"
+          } else if (item.lifeState == 2) {
+            item.lifeState = "通过"
+          } else if (item.lifeState == 3) {
+            item.lifeState = "未通过"
+          } else if (item.lifeState == 4) {
+            item.lifeState = "区委通过"
+          } else if (item.lifeState == 5) {
+            item.lifeState = "区委未通过"
+          } else if (item.lifeState == 6) {
+            item.lifeState = "已发布"
+          } else if (item.lifeState == 7) {
+            item.lifeState = "已开始"
+          } else if (item.lifeState == 8) {
+            item.lifeState = "已取消"
+          } else if (item.lifeState == 9) {
+            item.lifeState = "已结束"
+          }
+
+          if (item.lifeType == 1) {
+            item.lifeType = "党员大会"
+          } else {
+            item.lifeType = "党课"
+          }
+        })
+      })
+        .finally(() => {
+          this.loading = false;
+        });
+
+    },
+    mchange(StartMonth) {
+      this.searchParams.StartMonth = StartMonth;
+    },
+    change(LifeType) {
+      this.searchParams.LifeType = LifeType;
+    },
+    //查询
+    search() {
+      this.params.SkipCount = 0;
+      this.params.pageIndex = 1;
+      this.loadData();
+    },
+    reset() {
+      this.searchParams.StartMonth = "";
+      this.searchParams.LifeType = "";
+      this.searchParams.Name = "";
+      this.params.pageIndex = 1;
+      this.loadData();
+    },
     detail(row) {
       console.log(row)
       this.$router.push({
         name: "组织生活详情",
-        query: { obj: row.id, flag: 1 }
+        query: { obj: row.id, flag: 1 }//创建者和参与者
       });
     },
     //新增--1   编辑--2
     gotoUpload() {
       this.$router.push({
         name: "上传组织生活计划",
-        query: {flag: 1 }
+        query: { flag: 1 }
       });
     },
     edit(row) {
@@ -184,28 +250,32 @@ export default {
       });
     },
     upload(row) {
-       this.$router.push({
+      this.$router.push({
         name: "上传活动纪实",
-        query: { obj: row.id}
+        query: { obj: row.id }
       });
     },
     signup(row) {
-      this.$router.push({
-        name: "填写报名",
-        query: { obj: row.id }
-      });
-      // this.$router.push({
-      //   name: "选择报名",
-      //   query: { obj: row.id }
-      // });
+      if (row.isNeedPeopleInfo) {
+        this.$router.push({
+          name: "选择报名",
+          query: { obj: row.id }
+        });
+      } else {
+        this.$router.push({
+          name: "填写报名",
+          query: { obj: row.id }
+        });
+      }
+
     },
     del(row) {
       this.$Modal.confirm({
         title: '系统提示',
-        content: `确认删除会议"${row.title}"？`,
+        content: `确认删除主题"${row.title}"？`,
         onOk: () => {
-          DeleteParentMeetingInfoById({
-            id: row.id
+          DeleteOrganLife({
+            input: row.id
           }).then(res => {
             this.loadData();
             this.$Message.success('删除成功');
@@ -216,14 +286,32 @@ export default {
       });
     },
     start(row) {
-      editList({ ID: row.ID})
+      StartOrganLife({ input: row.id })
         .then(res => {
-          if (res.data.Success) {
-            this.$Message.success("发布成功！");
-            this.loadData();
-          } else {
-            this.$Message.error(res.data.Error);
-          }
+          this.$Message.success("组织生活已开始！");
+          this.istrue = false
+          // if (res.Success) {
+          //   this.$Message.success("发布成功！");
+          //   this.loadData();
+          // } else {
+          //   this.$Message.error(res.data.Error);
+          // }
+        })
+        .catch(err => {
+          this.$Message.error(err);
+        });
+    },
+    cancel(row) {
+      CancelOrganLife({ input: row.id })
+        .then(res => {
+          this.$Message.success("组织生活已取消！");
+          this.istrue = false
+          // if (res.Success) {
+          //   this.$Message.success("发布成功！");
+          //   this.loadData();
+          // } else {
+          //   this.$Message.error(res.data.Error);
+          // }
         })
         .catch(err => {
           this.$Message.error(err);

@@ -5,7 +5,7 @@ import {
     GetAllRole,
     GetCurrentUserMenuButton,
     GetMenuList,
-    GetUnreadAnnouncemenCount,
+    // GetUnreadAnnouncemenCount,
     WeChatOpenAuthByToken,
     SiginAndBindWeChat,
     UserChangeRole
@@ -22,18 +22,18 @@ export default {
     }, payload) {
         try {
             let permissions = [];
-            if (payload.refresh) {
+            // if (payload) {
+            //  permissions = await GetCurrentUserMenuButton();
+            //   localStorage.setItem(`${PREFIX}permissions`, JSON.stringify(permissions))
+            // } else {
+            permissions = localStorage.getItem(`${PREFIX}permissions`);
+            if (!permissions) {
                 permissions = await GetCurrentUserMenuButton();
                 localStorage.setItem(`${PREFIX}permissions`, JSON.stringify(permissions))
             } else {
-                permissions = localStorage.getItem(`${PREFIX}permissions`);
-                if (!permissions) {
-                    permissions = await GetCurrentUserMenuButton();
-                    localStorage.setItem(`${PREFIX}permissions`, JSON.stringify(permissions))
-                } else {
-                    permissions = JSON.parse(permissions);
-                }
+                permissions = JSON.parse(permissions);
             }
+            //  }
             commit('UPDATESTATE', {
                 permissions: permissions
             });
@@ -203,7 +203,7 @@ export default {
             });
             axios.setOption('Authorization', `Bearer ${res.accessToken}`);
             await dispatch('getAllBaseCodes');
-            await dispatch('systemTypeSelect', res);
+            //  await dispatch('systemTypeSelect', res);
             // RouteInit();
             return res;
         } catch (e) {
@@ -274,12 +274,16 @@ export default {
             throw e;
         }
     },
-    async getAllPermiss({ commit }, payload, isForce = false) {
-        console.log(payload)
+    async getAllPermiss({ commit }, payload = {}, isForce = false) {
+        //  console.log(payload)
         try {
             let code = localStorage.getItem(`${PREFIX}all_permiss`);
             if (isForce || !code) {
-                code = await GetMenuList(payload);
+                if (payload && payload.isadmin) {
+                    code = await GetMenuList();
+                } else {
+                    code = await GetCurrentUserMenuButton()
+                }
                 // code = await GetPermission();
                 code = JSON.stringify(code);
                 // localStorage.setItem(`${PREFIX}all_permiss`, code);
@@ -295,17 +299,17 @@ export default {
     },
 
     //获取未读消息
-    async getNotice({
-        commit
-    }) {
-        try {
-            let res = await GetUnreadAnnouncemenCount();
-            commit('UPDATESTATE', {
-                notice: res
-            });
-            return res;
-        } catch (e) {
-            throw e;
-        }
-    },
+    // async getNotice({
+    //     commit
+    // }) {
+    //     try {
+    //         let res = await GetUnreadAnnouncemenCount();
+    //         commit('UPDATESTATE', {
+    //             notice: res
+    //         });
+    //         return res;
+    //     } catch (e) {
+    //         throw e;
+    //     }
+    // },
 }

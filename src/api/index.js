@@ -83,11 +83,12 @@ export function GetPermission(params) {
 }
 
 /**
- * 获取菜单权限(渠道版)
+ * 获取菜单权限(渠道版)------此处修改
  */
 export function GetMenuList(params) {
     return axios.get('/api/services/app/MenuButton/List', params)
 }
+
 /**
  * 克隆菜单权限
  */

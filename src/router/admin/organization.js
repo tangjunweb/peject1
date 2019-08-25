@@ -86,7 +86,7 @@ export default [{
                     name: '上传活动纪实',
                     component: () =>
                         import ('@/pages/organization/manage/uploadactivity'),
-                }
+                },
             ],
         },
         {
@@ -121,7 +121,15 @@ export default [{
                     name: '查看详情',
                     component: () =>
                         import ('@/pages/organization/manage')
-                },
+                }, {
+                    path: 'activityaudit',
+                    meta: {
+                        title: '审核活动纪实'
+                    },
+                    name: '审核活动纪实',
+                    component: () =>
+                        import ('@/pages/organization/organizationalAplay/activityaudit'),
+                }
             ]
 
 

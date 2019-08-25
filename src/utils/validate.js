@@ -76,14 +76,11 @@ export function ValidateIDCard(rule, value, callback) {
         let currentYear = new Date().getFullYear();
         if (currentYear - obj.year < 15 || currentYear - obj.year > 200) {
             callback(new Error('您输入的身份证号码出生年限不在范围只能内'))
-        }
-        else if (obj.month < 1 || obj.month > 12) {
+        } else if (obj.month < 1 || obj.month > 12) {
             callback(new Error('您输入的身份证号码出生月份不在范围只能内'))
-        }
-        else if (obj.day < 1 || obj.day > 31) {
+        } else if (obj.day < 1 || obj.day > 31) {
             callback(new Error('您输入的身份证号码出生日期不在范围只能内'))
-        }
-        else if (str.length == 18 && !ValidateIDCardLastNum(str)) {
+        } else if (str.length == 18 && !ValidateIDCardLastNum(str)) {
             callback(new Error('您输入的身份证号码校验位错误'))
         } else {
             callback()

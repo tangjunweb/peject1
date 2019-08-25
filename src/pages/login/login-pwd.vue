@@ -115,19 +115,18 @@ export default {
           this.$store
             .dispatch("userLogin", model)
             .then(res => {
-              this.$router.push("/basic/analyse");
-              // if (this.$store.state.systemType == "adminAndUser") {
-              //   this.$router.push("/enter");
-              // }
+              //  this.$router.push("/basic/analyse");
+              this.$store.dispatch("getCurrentUserPermissionNames").then(res => {
+                console.log(res)
+                if (res[0].children.length) {
+                  if (res[0].children[0].url) {
+                    this.$router.replace(res[0].children[0].url);
+                  }else{
+                    this.$router.push("/main");
+                  }
 
-              //  if (this.$store.state.systemType == "admin") {
-              //   this.$store.dispatch("getCurrentUserPermissionNames");
-              //   this.$router.push("/main");
-              // } else {
-              //   this.$store.dispatch("getCurrentUserPermissionNames").then(res => {
-              //     this.$router.replace(res[0].url);
-              //   });
-              // }
+                }
+              });
               this.$Message.success("登录成功");
             })
             .catch(e => {

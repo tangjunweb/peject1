@@ -7,19 +7,21 @@
                     <li>
                         <div class='orginalmanage-title'>名称：</div>
                         <div class='orginalmanage-body title-red'>
-                            学习党的十九大精神</div>
+                            <!-- <span class='tag'>{{info.lifeState}}</span> -->
+                            {{info.title}}
+                        </div>
                     </li>
                     <li>
                         <div class='orginalmanage-title'>所属党组织：</div>
-                        <div class='orginalmanage-body'>中共青海省西宁市城北区委 </div>
+                        <div class='orginalmanage-body'>{{info.lifeOrgans[0].organName}}</div>
                     </li>
                     <li>
                         <div class='orginalmanage-title'>是否固定党日：</div>
-                        <div class='orginalmanage-body'>是</div>
+                        <div class='orginalmanage-body'>{{info.isPartyDay?'是':'否'}}</div>
                     </li>
                     <li>
                         <div class='orginalmanage-title'>会议类型：</div>
-                        <div class='orginalmanage-body'>党员大会</div>
+                        <div class='orginalmanage-body'>{{info.lifeType=1?'党员大会':"党课"}}</div>
                     </li>
                 </ul>
             </top-card>
@@ -27,57 +29,106 @@
         </Row>
         <Card class="upload-list" :bordered="false">
             <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" label-position='left' :label-width="290">
-                <FormItem label="活动摘要" prop="content">
-                    <Input v-model="formValidate.content" type="textarea" placeholder="请填写" />
+                <FormItem label="活动摘要" prop="record">
+                    <Input v-model="formValidate.record" type="textarea" placeholder="请填写" />
                 </FormItem>
-                <FormItem label="上传附件：" prop="file">
-                    <Button class="goupload" style="margin-right:20px" type="primary">点击上传</Button>
-                    <span style="position: absolute;left: 100px;">可上传文件格式：.png、.jpg、.doc ，单个文件不能超过500kb</span>
-                </FormItem>
-                <FormItem>
-                    <div class='orginalmanage-body'>
-                        <span class='file'>已上传文档名称.png</span>
-                        <span class='file'>已上传文档名称.png</span>
-                        <span class='file'>已上传文档名称.png</span>
-                        <span class='file'>已上传文档名称.png</span>
-                        <span class='file'>已上传文档名称.png</span>
-                    </div>
+                <FormItem label="上传附件：" prop="attachMents">
+                    <UploadAttachmentMultipe v-model="formValidate.attachMents"></UploadAttachmentMultipe>
+                    <span style="position: absolute;left: 127px;top:0;">可上传文件格式：.png、.jpg、.doc ，单个文件不能超过500kb</span>
                 </FormItem>
             </Form>
 
         </Card>
         <div class="card-footer">
-            <Button class="confirm" style="margin-right:20px" type="primary">确认报名</Button>
+            <Button @click="submit" class="confirm" style="margin-right:20px" type="primary">确认提交</Button>
             <Button class="quxiao" type='primary' ghost>取消</Button>
         </div>
     </div>
 </template>
 <script>
 import { Tabs, TabPane, Card, Table, Form, FormItem } from 'iview'
+import UploadAttachmentMultipe from "@/components/UploadAttachmentMultipe";
+import {
+    UploadOrganLifeRecord, GetOrganLifeDetails
+} from "@/api/orgazationNew";
+
 export default {
     components: {
         Tabs,
         TabPane,
         Card,
         Table,
-        Form, FormItem
+        Form, FormItem, UploadAttachmentMultipe
     },
     data() {
         return {
             loading: false,
             formValidate: {
-                content: '',
-                file: ''
+                organLifeId: '',
+                record: '',
+                attachMents: []
             },
             ruleValidate: {
-                content: [
+                record: [
                     { required: true, message: '请填写活动摘要', trigger: 'blur' }
                 ],
-                file: [
-                    { required: true, message: '请上传附件', trigger: 'blur' }
+                attachMents: [
+                    { required: true, type: 'array', min: 1, message: '请上传附件', trigger: 'change' },
+                    { type: 'array', max: 10, message: '最多上传10附件', trigger: 'change' }
+
                 ]
-            }
+            },
+            info:{}
         }
+    },
+    mounted() {
+        this.loadData()
+    },
+    methods: {
+        loadData() {
+             let id = this.$route.query.obj;
+            GetOrganLifeDetails({ input: id }).then(res => {
+                this.info = res;
+                if (this.info.lifeState == 0) {
+                    this.info.lifeState = "未开始"
+                } else if (this.info.lifeState == 1) {
+                    this.info.lifeState = "待审核"
+                } else if (this.info.lifeState == 2) {
+                    this.info.lifeState = "通过"
+                } else if (this.info.lifeState == 3) {
+                    this.info.lifeState = "未通过"
+                } else if (this.info.lifeState == 4) {
+                    this.info.lifeState = "区委通过"
+                } else if (this.info.lifeState == 5) {
+                    this.info.lifeState = "区委未通过"
+                } else if (this.info.lifeState == 6) {
+                    this.info.lifeState = "已发布"
+                } else if (this.info.lifeState == 7) {
+                    this.info.lifeState = "已开始"
+                } else if (this.info.lifeState == 8) {
+                    this.info.lifeState = "已取消"
+                } else if (this.info.lifeState == 9) {
+                    this.info.lifeState = "已结束"
+                }
+            })
+        },
+        submit() {
+            this.$refs['formValidate'].validate(valid => {
+                if (valid) {
+                    let id = this.$route.query.obj;
+                    // let organId = this.$store.state.session.organId
+                    if (id) {
+                        UploadOrganLifeRecord(this.formValidate)
+                            .then(res => {
+                                this.$Message.success('活动纪实上传成功');
+                                this.$router.push('/organization/manage/home');
+                            })
+                            .finally(() => {
+                            });
+                    }
+                }
+            });
+        },
     }
 }
 </script>
@@ -126,7 +177,7 @@ export default {
         border-radius: 3px;
     }
     .orginalmanage-body {
-        width:450px;
+        width: 450px;
         font-size: 14px; // font-weight: 500;
         color: rgba(51, 51, 51, 1);
         .file {

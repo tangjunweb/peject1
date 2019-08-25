@@ -171,15 +171,15 @@ export default {
     params: {
       deep: true,
       handler(n) {
-      //  this.loadData();
+        this.loadData();
       }
     },
     tabName(n) {
-     // this.loadData();
+      this.loadData();
     }
   },
   mounted() {
-  //  this.loadData();
+    this.loadData();
   },
   computed: {
     isBranch() {

@@ -54,6 +54,11 @@
                   <Input placeholder="请填站点域名" v-model="formModel.siteDomain"></Input>
                 </FormItem>
               </Col>
+               <Col :span="12">
+                <FormItem label="organId:" prop="organId">
+                  <Input placeholder="请输入党组织编号" v-model="formModel.organId"></Input>
+                </FormItem>
+              </Col>
               <!-- <Col :span="24">
                             <FormItem class="xmcdqx-form-item" label="项目菜单权限:">
                                 <Tree ref="tree" :data="permiss" :render="renderContent" show-checkbox></Tree>

@@ -16,7 +16,7 @@
         </Form>
       </Col>
       <Col :span="12" class="text-right">
-        <Button v-if="auth('/setting/roles/create')" @click="$router.push('create')" type="primary" ghost>新建角色</Button>
+        <Button @click="$router.push('create')" type="primary" ghost>新建角色</Button>
       </Col>
     </Row>
     <Card class="border" :dis-hover="true">
@@ -99,8 +99,7 @@ export default {
           className: "zdy-table-opration",
           render(h, { row }) {
             let arr = [];
-            if (that.auth("/setting/roles/menu")) {
-              arr.push(
+            arr.push(
                 h(
                   "a",
                   {
@@ -119,9 +118,7 @@ export default {
                   "选择菜单"
                 )
               );
-            }
-            if (that.auth("/setting/roles/update")) {
-              arr.push(
+            arr.push(
                 h(
                   "a",
                   {
@@ -144,9 +141,7 @@ export default {
                   "编辑"
                 )
               );
-            }
-            if (that.auth("/setting/roles/delete")) {
-              arr.push(
+            arr.push(
                 h(
                   "a",
                   {
@@ -175,7 +170,6 @@ export default {
                   "删除"
                 )
               );
-            }
             return h(
               "span",
               {

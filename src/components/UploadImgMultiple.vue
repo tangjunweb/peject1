@@ -62,7 +62,7 @@ export default {
     },
     max: {
       type: Number,
-      default: 6
+      default: 5
     }
   },
   computed: {

@@ -74,14 +74,14 @@ export default {
         }
     },
     methods: {
-        close () {
+        closedalog () {
             this.dialogvisible = false
         },
         sure () {
-           this.$emit('confirm', this.close) 
+           this.$emit('confirm', this.closedalog) 
         },
         cancel () {
-            this.close()
+            this.closedalog()
         }
     }
 }

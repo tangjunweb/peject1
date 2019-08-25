@@ -13,6 +13,13 @@ export default class OrganizationLifeMng extends BaseModel {
     timeType = '1';
     meetingSignType = '';
     infoOutDtos = [];
+    address = '';
+    peopleNumber = "";
+    isPartyDay = false;
+    lifeContent = "";
+    isNeedPeopleInfo = false;
+    contacts = '';
+    telephoneNumber = '';
 
     constructor(props = {}) {
         super();
@@ -90,18 +97,59 @@ export default class OrganizationLifeMng extends BaseModel {
             }],
             address: [{
                 required: true,
-                trigger: 'change',
-                message: '请选择地址'
+                trigger: 'blur',
+                message: '请填写会议地点'
             }],
-            // organId: [{
-            //     required: true,
-            //     trigger: 'change',
-            //     message: '请选择党组织'
-            // }],
+            peopleNumber: [{
+                required: true,
+                trigger: 'blur',
+                message: '请填写会议人数'
+            }],
+            isPartyDay: [{
+                required: true,
+                trigger: 'change',
+                message: '请选择是否固定党日'
+            }],
+            lifeContent: [{
+                required: true,
+                trigger: 'blur',
+                message: '请填写活动内容'
+            }],
+            isNeedPeopleInfo: [{
+                required: true,
+                trigger: 'change',
+                message: '请选择是否需人员信息'
+            }],
             meetingSignType: [{
                 required: true,
                 trigger: 'blur',
                 message: '请选择签到类型'
+            }],
+            contacts: [{
+                required: true,
+                trigger: 'blur',
+                message: '请填写联系人'
+            }],
+            telephoneNumber: [{
+                required: true,
+                trigger: 'blur',
+                message: '请输入联系电话'
+            }, {
+                validator(rule, value, callback) {
+                    if (value && context.formValidate.telephoneNumber) {
+
+                        let reg = /^((13[0-9])|(14[0-9])|(15([0-9]))|(17[0-9])|(18[0-9])|(16[0-9])|(19[0-9]))[0-9]{8}$/;
+                        if (!value) {
+                            callback(new Error("请输入联系电话"));
+                        } else if (!reg.test(value)) {
+                            callback(new Error("请输入正确的手机号格式"));
+                        } else {
+                            callback();
+                        }
+                    } else {
+                        callback();
+                    }
+                }
             }],
             startTime: [{
                 required: true,
@@ -110,8 +158,8 @@ export default class OrganizationLifeMng extends BaseModel {
                 pattern: /.+/
             }, {
                 validator(rule, value, callback) {
-                    if (value && context.model.endTime) {
-                        let st = (new Date(context.FormatDate(context.model.endTime, 'yyyy/MM/dd hh:mm:ss'))).getTime();
+                    if (value && context.formValidate.endTime) {
+                        let st = (new Date(context.FormatDate(context.formValidate.endTime, 'yyyy/MM/dd hh:mm:ss'))).getTime();
                         let ct = (new Date(value)).getTime();
                         if (ct > st) {
                             callback(new Error('开始时间不能大于结束时间'));
@@ -130,8 +178,8 @@ export default class OrganizationLifeMng extends BaseModel {
                 pattern: /.+/
             }, {
                 validator(rule, value, callback) {
-                    if (value && context.model.startTime) {
-                        let st = (new Date(context.FormatDate(context.model.startTime, 'yyyy/MM/dd hh:mm:ss'))).getTime();
+                    if (value && context.formValidate.startTime) {
+                        let st = (new Date(context.FormatDate(context.formValidate.startTime, 'yyyy/MM/dd hh:mm:ss'))).getTime();
                         let ct = (new Date(value)).getTime();
                         if (ct < st) {
                             callback(new Error('开始时间不能大于结束时间'));

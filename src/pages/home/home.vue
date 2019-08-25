@@ -101,7 +101,7 @@ export default {
   data() {
     return {
       loading: false,
-      menu: nav
+    //  menu: nav
     };
   },
   mounted() {
@@ -147,7 +147,7 @@ export default {
   position: relative;
   width: 100%;
   overflow-x: hidden;
-  height: 1080px;
+ // height: 1080px;
   .ivu-layout-footer {
     background: #B8232B;
     padding: 6px 50px;

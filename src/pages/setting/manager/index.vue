@@ -3,68 +3,50 @@
     <!-- <TopCountTipsCard title="管理员管理" :count="total" subTitle="管理员总数"></TopCountTipsCard> -->
     <Row>
       <Col :span="12">
-        <Form ref="form" inline>
-          <FormItem>
-            <Input v-model="searchParams.Keyword" type="text" placeholder="输入关键字搜索"></Input>
-          </FormItem>
-          <FormItem>
-            <Button @click="search" type="primary">搜索</Button>
-          </FormItem>
-          <FormItem>
-            <Button @click="reset" type="primary">重置</Button>
-          </FormItem>
-        </Form>
+      <Form ref="form" inline>
+        <FormItem>
+          <Input v-model="searchParams.Keyword" type="text" placeholder="输入关键字搜索"></Input>
+        </FormItem>
+        <FormItem>
+          <Button @click="search" type="primary">搜索</Button>
+        </FormItem>
+        <FormItem>
+          <Button @click="reset" type="primary">重置</Button>
+        </FormItem>
+      </Form>
       </Col>
       <Col :span="12" class="text-right">
-        <Button @click="addAdmin" type="primary" ghost>新建管理员</Button>
+      <Button @click="addAdmin" type="primary" ghost>新建管理员</Button>
       </Col>
     </Row>
     <Card class="border" :dis-hover="true">
       <Table :loading="loading" stripe :columns="columns" :data="data"></Table>
     </Card>
     <div class="text-right" style="padding:30px 0 0 0">
-      <page-extend
-        :current-page.sync="params.PageIndex"
-        :total="total"
-        :finishState="loading"
-        :resetTotal.sync="resetTotal"
-        :page-size="params.MaxResultCount"
-        class-name="lhyj-page"
-      />
+      <page-extend :current-page.sync="params.PageIndex" :total="total" :finishState="loading" :resetTotal.sync="resetTotal" :page-size="params.MaxResultCount" class-name="lhyj-page" />
     </div>
-    <Modal
-      v-model="showModal"
-      :title="modalTitle"
-      :loading="modalLoading"
-      transfer
-      width="800px"
-      class-name="blue-modal"
-    >
+    <Modal v-model="showModal" :title="modalTitle" :loading="modalLoading" transfer width="800px" class-name="blue-modal">
       <Form :label-width="100" ref="form" :model="model" :rules="rules">
         <FormItem label="姓名" prop="name">
           <Input :readonly="true" size="large" placeholder="请输入姓名" v-model="model.name">
-            <div slot="append">
-              <Button @click="cancelBind" size="large" v-if="!isUpdate&&!isEdit">取消绑定</Button>
-              <PartyMemberSelect v-else type="single" :value="{}" @change="partyMemberChange">
-                <Button :disabled="isUpdate" size="large">绑定党员</Button>
-              </PartyMemberSelect>
-            </div>
+          <div slot="append">
+            <Button @click="cancelBind" size="large" v-if="!isUpdate&&!isEdit">取消绑定</Button>
+            <PartyMemberSelect v-else type="single" :value="{}" @change="partyMemberChange">
+              <Button :disabled="isUpdate" size="large">绑定党员</Button>
+            </PartyMemberSelect>
+          </div>
           </Input>
         </FormItem>
         <!-- <FormItem label="密码" prop="password" v-if="isEdit&&!isUpdate">
-          <Input size="large" placeholder="请输入密码" v-model="model.password"></Input>
-        </FormItem>-->
+            <Input size="large" placeholder="请输入密码" v-model="model.password"></Input>
+          </FormItem>-->
         <FormItem label="角色" prop="roles">
           <Select transfer size="large" placeholder="选择角色" v-model="model.roles" multiple>
             <Option v-for="(el,i) in allroles" :key="i" :value="el.id" :label="el.name"></Option>
           </Select>
         </FormItem>
         <FormItem label="管理组织" prop="manageorgId">
-          <OrganizationCascader
-            @change="changeOrg"
-            :label="model.organName"
-            v-model="model.manageorgId"
-          ></OrganizationCascader>
+          <OrganizationCascader @change="changeOrg" :label="model.organName" v-model="model.manageorgId"></OrganizationCascader>
         </FormItem>
       </Form>
       <Spin fix v-if="modalSpin"></Spin>
@@ -244,55 +226,51 @@ export default {
             //     );
             //   }
             // }
-            if (that.auth("/setting/manager/update")) {
-              arr.push(
-                h(
-                  "a",
-                  {
-                    // props: {
-                    //     type: 'info',
-                    //     ghost: true
-                    // },
-                    on: {
-                      click() {
-                        that.getAdmin(row.id);
-                      }
+            arr.push(
+              h(
+                "a",
+                {
+                  // props: {
+                  //     type: 'info',
+                  //     ghost: true
+                  // },
+                  on: {
+                    click() {
+                      that.getAdmin(row.id);
                     }
-                  },
-                  "编辑"
-                )
-              );
-            }
-            if (that.auth("/setting/manager/delete")) {
-              arr.push(
-                h(
-                  "a",
-                  {
-                    // props: {
-                    //     type: 'error',
-                    //     ghost: true
-                    // },
-                    on: {
-                      click() {
-                        that.$Modal.confirm({
-                          title: "系统提示",
-                          content: `确认删除用户'${row.name}'?`,
-                          onOk() {
-                            UserDelete({
-                              id: row.id
-                            }).then(res => {
-                              that.$Message.success("删除成功！");
-                              that.loadData();
-                            });
-                          }
-                        });
-                      }
+                  }
+                },
+                "编辑"
+              )
+            );
+            arr.push(
+              h(
+                "a",
+                {
+                  // props: {
+                  //     type: 'error',
+                  //     ghost: true
+                  // },
+                  on: {
+                    click() {
+                      that.$Modal.confirm({
+                        title: "系统提示",
+                        content: `确认删除用户'${row.name}'?`,
+                        onOk() {
+                          UserDelete({
+                            id: row.id
+                          }).then(res => {
+                            that.$Message.success("删除成功！");
+                            that.loadData();
+                          });
+                        }
+                      });
                     }
-                  },
-                  "删除"
-                )
-              );
-            }
+                  }
+                },
+                "删除"
+              )
+            );
             return h(
               "span",
               {
@@ -439,4 +417,5 @@ export default {
 };
 </script>
 <style lang="less">
+
 </style>

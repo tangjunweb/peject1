@@ -7,23 +7,25 @@
                     <li>
                         <div class='orginalmanage-title'>名称：</div>
                         <div class='orginalmanage-body title-red'>
-                            <span class='tag'>待审核</span> 学习党的十九大精神</div>
+                            <span class='tag'>{{info.lifeState}}</span>
+                            {{info.title}}
+                        </div>
                     </li>
                     <li>
                         <div class='orginalmanage-title'>所属党组织：</div>
-                        <div class='orginalmanage-body'>中共青海省西宁市城北区委 </div>
+                        <div class='orginalmanage-body'>{{info.lifeOrgans[0].organName}}</div>
                     </li>
                     <li>
                         <div class='orginalmanage-title'>会议类型：</div>
-                        <div class='orginalmanage-body'>支部大会</div>
+                        <div class='orginalmanage-body'>{{info.lifeType=1?'党员大会':"党课"}}</div>
                     </li>
                     <li>
                         <div class='orginalmanage-title'>会议时间：</div>
-                        <div class='orginalmanage-body'>2019-08-09 14:00-17:00</div>
+                        <div class='orginalmanage-body'>{{info.creationTime|DateFormat('yyyy-MM-dd')}}</div>
                     </li>
                     <li>
                         <div class='orginalmanage-title'>会议地址：</div>
-                        <div class='orginalmanage-body'>西宁市城北区某某街道19号附3号</div>
+                        <div class='orginalmanage-body'>{{info.address}}</div>
                     </li>
                     <li>
 
@@ -34,23 +36,24 @@
         </Row>
         <Card class="upload-list" :bordered="false">
             <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" label-position='left' :label-width="290">
-                <FormItem label="上级党组织审核意见：" prop="content">
-                    <Input v-model="formValidate.content" type="textarea" placeholder="请填写审核意见" />
+                <FormItem label="上级党组织审核意见：" prop="note">
+                    <Input v-model="formValidate.note" type="textarea" placeholder="请填写审核意见" />
                 </FormItem>
-                <FormItem label="区委审核意见：" prop="text">
-                    <Input v-model="formValidate.text" type="textarea" placeholder="请填写审核意见" />
+                <FormItem label="区委审核意见：" prop="note">
+                    <Input v-model="formValidate.note" type="textarea" placeholder="请填写审核意见" />
                 </FormItem>
             </Form>
 
         </Card>
         <div class="card-footer">
-            <Button class="confirm" style="margin-right:20px" type="primary">审核通过</Button>
-            <Button class="quxiao" type='primary' ghost>审核不通过</Button>
+            <Button @click="audit" class="confirm" style="margin-right:20px" type="primary">审核通过</Button>
+            <Button @click="noaudit" class="quxiao" type='primary' ghost>审核不通过</Button>
         </div>
     </div>
 </template>
 <script>
 import { Tabs, TabPane, Card, Table, Form, FormItem } from 'iview'
+import { AuditOrganLife, GetOrganLifeDetailsByAudit } from "@/api/orgazationNew";
 export default {
     components: {
         Tabs,
@@ -63,8 +66,9 @@ export default {
         return {
             loading: false,
             formValidate: {
-                content: '',
-                text: ''
+                organLifeId: '',
+                note: '',
+                lifeState: []
             },
             ruleValidate: {
                 content: [
@@ -73,9 +77,41 @@ export default {
                 text: [
                     { required: true, message: '请填写审核意见', trigger: 'blur' }
                 ]
-            }
+            },
+            info:{}
+        }
+    },
+    mounted() {
+
+        this.loadData()
+    },
+    methods: {
+        loadData() {
+              let id = this.$route.query.obj;
+            GetOrganLifeDetailsByAudit({ input: id }).then(res => {
+                this.info = res;
+            })
+        },
+        //审核通过
+        audit() {
+            this.formValidate.organLifeId = this.$route.query.obj;
+            this.formValidate.lifeState = true
+            AuditOrganLife(this.formValidate).then(res => {
+                this.$Message.success('审核通过');
+                this.$router.push('/organization/organizationalAplay/index');
+            })
+        },
+        //审核不通过
+        noaudit() {
+            this.formValidate.organLifeId = this.$route.query.obj;
+            this.formValidate.lifeState = false
+            AuditOrganLife(this.formValidate).then(res => {
+                this.$Message.success('审核不通过');
+                this.$router.push('/organization/organizationalAplay/index');
+            })
         }
     }
+
 }
 </script>
 <style lang="less" scoped>

@@ -7,22 +7,21 @@
                     <li>
                         <div class='orginalmanage-title'>名称：</div>
                         <div class='orginalmanage-body title-red'>
-                            <span class='tag'>未开始</span>
-                            <span class='tag1'>已结束待审核</span>
-                            <span class='tag'>已结束</span>
-                            学习党的十九大精神</div>
+                            <span class='tag'>{{info.lifeState}}</span>
+                            {{info.title}}
+                        </div>
                     </li>
                     <li>
                         <div class='orginalmanage-title'>所属党组织：</div>
-                        <div class='orginalmanage-body'>中共青海省西宁市城北区委 </div>
+                        <div class='orginalmanage-body'>{{info.lifeOrgans[0].organName}}</div>
                     </li>
                     <li>
                         <div class='orginalmanage-title'>是否固定党日：</div>
-                        <div class='orginalmanage-body'>是</div>
+                        <div class='orginalmanage-body'>{{info.isPartyDay?'是':'否'}}</div>
                     </li>
                     <li>
                         <div class='orginalmanage-title'>会议类型：</div>
-                        <div class='orginalmanage-body'>党员大会</div>
+                        <div class='orginalmanage-body'>{{info.lifeType=1?'党员大会':"党课"}}</div>
                     </li>
                 </ul>
             </top-card>
@@ -34,40 +33,33 @@
                     <ul class='formLine' style="margin-left:-40px;margin-right: -40px;">
                         <li>
                             <div class='orginalmanage-title'>时间：</div>
-                            <div class='orginalmanage-body'>2019-09-08</div>
+                            <div class='orginalmanage-body'>{{info.creationTime|DateFormat('yyyy-MM-dd')}}</div>
                         </li>
                         <li>
                             <div class='orginalmanage-title'>地点：</div>
-                            <div class='orginalmanage-body'>中共青海省西宁市城北区委第一办公室</div>
+                            <div class='orginalmanage-body'>{{info.address}}</div>
                         </li>
 
                         <li>
                             <div class='orginalmanage-title'>会议主题：</div>
-                            <div class='orginalmanage-body'>学习党的十九大精神</div>
+                            <div class='orginalmanage-body'>{{info.title}}</div>
                         </li>
                         <li>
                             <div class='orginalmanage-title'>主持人：</div>
-                            <div class='orginalmanage-body'>张三</div>
+                            <div class='orginalmanage-body'>{{info.contacts}}</div>
                         </li>
                         <li class='block'>
                             <div class='orginalmanage-title'>主要内容：</div>
-                            <div class='orginalmanage-body'>学习党的十九大精神，全面落实工作部署</div>
+                            <div class='orginalmanage-body'>{{info.lifeContent}}</div>
                         </li>
                         <li class='block'>
                             <div class='orginalmanage-title'>议程：</div>
-                            <div class='orginalmanage-body'>
-                                <p>会议议程一：这里显示会议议程1的内容，这里显示会议议程1的内容；</p>
-                                <p>会议议程二：这里显示会议议程1的内容，这里显示会议议程1的内容；</p>
-                            </div>
+                            <div class='orginalmanage-body'></div>
                         </li>
-                        <li class='block' style="padding:40px 0px;">
+                        <li class='block' style="padding:40px 0px;" v-if="info.attachments && info.attachments.length">
                             <div class='orginalmanage-title'>文件：</div>
                             <div class='orginalmanage-body'>
-                                <span class='file'>已上传文档名称.png</span>
-                                <span class='file'>已上传文档名称.png</span>
-                                <span class='file'>已上传文档名称.png</span>
-                                <span class='file'>已上传文档名称.png</span>
-                                <span class='file'>已上传文档名称.png</span>
+                                <AttachmentList :data="info.attachments"></AttachmentList>
                             </div>
                         </li>
                     </ul>
@@ -89,23 +81,45 @@
                     </Form>
                     <Table :loading="loading" stripe :columns="columns" :data="datatable"></Table>
                 </TabPane>
-                <TabPane label="参会情况" name="name3">
-                    <div>
-                        <template>
-                            <Tabs type="card" name='31'>
-                                <TabPane label="党员大会"></TabPane>
-                                <TabPane label="党支部委员会"></TabPane>
-                                <TabPane label="党小组会"></TabPane>
-                                <TabPane label="党课"></TabPane>
-                                <TabPane label="党内集中活动"></TabPane>
-                            </Tabs>
-                        </template>
-               
-                        <Table :loading="loading" stripe :columns="columns" :data="datatable"></Table> -->
-                    </div>
+
+                <TabPane label="活动纪实" name="name3">
+                    <ul class='formLine' style="margin-left:-40px;margin-right: -40px;">
+                        <li class='block'>
+                            <div class='orginalmanage-title'>活动摘要：</div>
+                            <div class='orginalmanage-body'>{{info.record}}</div>
+                        </li>
+                        <li class='block' style="padding:40px 0px;">
+                            <div class='orginalmanage-title'>活动纪实状态：</div>
+                            <div class='orginalmanage-body'>{{info.lifeRecordState}}
+                            </div>
+                        </li>
+                        <li class='block' style="padding:40px 0px;" v-if="info.otherFiles && info.otherFiles.length">
+                            <div class='orginalmanage-title'>附件：</div>
+                            <div class='orginalmanage-body'>
+                                <AttachmentList :data="info.otherFiles"></AttachmentList>
+                            </div>
+                        </li>
+                        <li class='block' style="padding:40px 0px;" v-if="info.imageFiles && info.imageFiles.length">
+                            <div class='orginalmanage-title'>附件：</div>
+                            <div class='orginalmanage-body'>
+                                <AttachmentList :data="info.imageFiles"></AttachmentList>
+                            </div>
+                        </li>
+                    </ul>
                 </TabPane>
-                <TabPane label="活动纪实" name="name4">
-                  
+                <TabPane label="审核意见" name="name4">
+                    <ul class='formLine' style="margin-left:-40px;margin-right: -40px;">
+                        <li style="width:100%">
+                            <div class='orginalmanage-title'>街道(社区/镇)党委审核意见：</div>
+                            <div class='orginalmanage-body'>
+                                这里显示详细意见</div>
+                        </li>
+                        <li style="width:100%">
+                            <div class='orginalmanage-title'>区委审核意见：</div>
+                            <div class='orginalmanage-body'>
+                                这里显示详细意见</div>
+                        </li>
+                    </ul>
                 </TabPane>
             </Tabs>
         </Card>
@@ -113,17 +127,22 @@
 </template>
 <script>
 import { Tabs, TabPane, Card, Table, Form, FormItem } from 'iview'
+import AttachmentList from "@/components/AttachmentList";
+import {
+    GetOrganLifeDetails,
+    GetOrganLifeDetailsByAudit
+} from "@/api/orgazationNew";
 export default {
     components: {
         Tabs,
         TabPane,
         Card,
         Table,
-        Form, FormItem
+        Form, FormItem, AttachmentList
     },
     data() {
         return {
-            loading: flase,
+            loading: false,
             data: [],
             columns: [
                 {
@@ -176,13 +195,65 @@ export default {
                     sex: '女',
                     sfz: '51340129993673778'
                 }
-            ]
+            ],
+            info: {}
+        }
+    },
+    mounted() {
+        this.loadData()
+    },
+    methods: {
+        loadData() {
+            let id = this.$route.query.obj;
+            GetOrganLifeDetails({ input: id }).then(res => {
+                this.info = res;
+                if (this.info.lifeRecordState == 1) {
+                    this.info.lifeRecordState = "待审核"
+                } else if (this.info.lifeRecordState == 2) {
+                    this.info.lifeRecordState = "通过"
+                } else if (this.info.lifeRecordState == 3) {
+                    this.info.lifeRecordState = "未通过"
+                } else if (this.info.lifeRecordState == 4) {
+                    this.info.lifeRecordState = "区委通过"
+                } else if (this.info.lifeRecordState == 5) {
+                    this.info.lifeRecordState = "区委未通过"
+                }
+
+
+                if (this.info.lifeState == 0) {
+                    this.info.lifeState = "未开始"
+                } else if (this.info.lifeState == 1) {
+                    this.info.lifeState = "待审核"
+                } else if (this.info.lifeState == 2) {
+                    this.info.lifeState = "通过"
+                } else if (this.info.lifeState == 3) {
+                    this.info.lifeState = "未通过"
+                } else if (this.info.lifeState == 4) {
+                    this.info.lifeState = "区委通过"
+                } else if (this.info.lifeState == 5) {
+                    this.info.lifeState = "区委未通过"
+                } else if (this.info.lifeState == 6) {
+                    this.info.lifeState = "已发布"
+                } else if (this.info.lifeState == 7) {
+                    this.info.lifeState = "已开始"
+                } else if (this.info.lifeState == 8) {
+                    this.info.lifeState = "已取消"
+                } else if (this.info.lifeState == 9) {
+                    this.info.lifeState = "已结束"
+                }
+                console.log(this.info)
+            });
         }
     }
+   
+
 }
 </script>
 <style lang="less" scoped>
 .orginalmanage {
+    .orginalmanage-title {
+        width: 200px !important;
+    }
     .tag {
         padding: 5px 10px;
         background: rgba(179, 178, 178, 1);
@@ -219,6 +290,7 @@ export default {
             margin-top: -4px;
         }
     }
+
     .orginalmanage-body {
         font-size: 14px; // font-weight: 500;
         color: rgba(51, 51, 51, 1);

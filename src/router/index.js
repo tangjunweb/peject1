@@ -6,6 +6,7 @@ import { isEmptyObject, hasAuthority } from '@/utils/util'
 import BasicRoutes from './admin/basic'
 import KeyWorkRoutes from './admin/keyWork'
 import OrganinzationRoutes from './admin/organization'
+import InformationRoutes from './admin/infomation'
 import partybuildRoutes from './admin/partybuild'
 import SettingRoutes from './admin/settings'
 Vue.use(Router)
@@ -26,9 +27,9 @@ const router = new Router({
             path: '/',
             redirect: () => { //重定向到第一个权限菜单
                 return '/login'
-                // if (store.state.permissions.length && store.state.permissions[0].url) {
-                //     return store.state.permissions[0].url
-                // }
+                    // if (store.state.permissions.length && store.state.permissions[0].url) {
+                    //     return store.state.permissions[0].url
+                    // }
             },
             component: () =>
                 import ('@/pages/home/home'), //导航
@@ -43,7 +44,8 @@ const router = new Router({
                 ...KeyWorkRoutes,
                 ...OrganinzationRoutes,
                 ...partybuildRoutes,
-                ...SettingRoutes
+                ...SettingRoutes,
+                ...InformationRoutes,
             ]
         },
         {
