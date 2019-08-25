@@ -1,3 +1,4 @@
+
 //手机号验证
 export function ValidateTel(rule, value, callback) {
     let str = String(value);
@@ -87,5 +88,15 @@ export function ValidateIDCard(rule, value, callback) {
         }
     } else {
         callback()
+    }
+}
+
+
+//验证清单个数
+export function ValidateInvertory(rule, value, callback) {
+    if (!value.length){
+        callback(new Error('请上传清单'))
+    } else if (value.length>10){
+        callback(new Error('最多上传10个清单'))
     }
 }

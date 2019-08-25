@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class='dialog-right heightfull'>
-                        <Table @on-selection-change='changeTable' :loading="loading" stripe :columns="columns" ref="table" :data="data">
+                        <Table @on-selection-change='changeTable' @on-select-cancel='cantable' :loading="loading" stripe :columns="columns" ref="table" :data="data">
                             <template slot-scope="{ row, index }" slot="opration">
                                 <span class="del-btn" @click="del(row)">删除</span>
                             </template>
@@ -60,7 +60,7 @@
 <script>
 import { Table, Page, Modal } from 'iview'
 import { SkipCount, ClearParams } from "@/mixins";
-import { ValidateIDCardBirthday } from '@/utils/validate'
+import { ValidateIDCard } from '@/utils/validate'
 import {
     CreateOrganPeople,
     GetOrganPeoplePagedList,
@@ -80,40 +80,15 @@ export default {
         Modal
     },
     data() {
-        const ValidateIDCard = (rule, value, callback) => {
-            let str = String(value);
-            if (!str) {
-                callback(new Error('请输入身份证号'))
-            } else if (!str.match(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/)) {
-                callback(new Error('身份证号格式错误'))
-            } else if (str.match(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/)) {
-                let obj = ValidateIDCardBirthday(str);
-                let currentYear = new Date().getFullYear();
-                if (currentYear - obj.year < 15 || currentYear - obj.year > 200) {
-                    callback(new Error('您输入的身份证号码出生年限不在范围只能内'))
-                } else if (obj.month < 1 || obj.month > 12) {
-                    callback(new Error('您输入的身份证号码出生月份不在范围只能内'))
-                } else if (obj.day < 1 || obj.day > 31) {
-                    callback(new Error('您输入的身份证号码出生日期不在范围只能内'))
-                }
-                // else if (str.length == 18 && !ValidateIDCardLastNum(str)) {
-                //     callback(new Error('您输入的身份证号码校验位错误'))
-                // } 
-                else {
-                    callback()
-                }
-            } else {
-                callback()
-            }
-        };
         return {
+            selection: [],
             modal: false,
-            total: 1,
+            total: 2,
             searchParams: {
                 Name: ''
             },
             params: {
-                MaxResultCount: 7,//每页条数
+                MaxResultCount: 1,//每页条数
                 SkipCount: 0,//页数
                 pageIndex: 1
             },
@@ -157,8 +132,7 @@ export default {
                 idCard: [
                     { required: true, trigger: 'blur', validator: ValidateIDCard }
                 ],
-            },
-            organPeopleIds: []
+            }
         }
     },
     mounted() {
@@ -166,6 +140,43 @@ export default {
     },
     methods: {
         loadData() {
+            if (this.params.pageIndex === 1) {
+                this.data = [
+                    {
+                    sex: '男',
+                    name: 'tangj',
+                    age:25,
+                    idCard: 11
+                },
+                {
+                    sex: '男',
+                     name: 'tangj2',
+                    age:26,
+                    idCard: 12
+                }
+                ]
+            }
+            if (this.params.pageIndex === 2) {
+                
+                this.data =  [
+                    {
+                        sex: '男',
+                        name: 'tangj22',
+                        age:25,
+                        idCard: 23
+                    },
+                    {
+                        sex: '男',
+                        name: 'tangj221',
+                        age:26,
+                        idCard: 24
+                    }
+                ]
+            }
+            this.$nextTick(() => {
+                this.setSelection()
+            })
+            return false
             this.loading = true;
             let params = JSON.parse(JSON.stringify(this.params));
             params.SkipCount = this.SkipCount(
@@ -184,6 +195,9 @@ export default {
                         item.sex = '女'
                     }
                 })
+                this.$nextTick(() => {
+                    this.setSelection()
+                })
 
             }).finally(() => {
                 this.loading = false;
@@ -194,12 +208,32 @@ export default {
             this.params.pageIndex = 1;
             this.loadData();
         },
+        cantable (selection, row) {
+            let index = this.leftDate.findIndex(item => item.idCard === row.idCard)
+            if (index >= 0) {
+                this.leftDate.splice(index, 1) 
+            }
+        },
         changeTable(selection) {
-            this.leftDate = selection
+            // 数据比对
+            this.selection = selection
+            let filterData = selection.filter(item => {
+                return !this.leftDate.find(subitem => subitem.idCard === item.idCard)
+            })
+            this.leftDate = this.leftDate.concat(filterData)
+        },
+        setSelection () {
+            // 切换后重新赋值
+            this.leftDate.map(item => {
+                 let _index = this.data.findIndex(row => row.idCard === item.idCard)
+                 if (_index >= 0) {
+                    this.$refs.table.toggleSelect(_index)
+                }
+            })
         },
         remove(item, index) {
             this.leftDate.splice(index, 1)
-            let _index = this.data.findIndex(row => row.id === item.id)
+            let _index = this.data.findIndex(row => row.idCard === item.idCard)
             if (_index >= 0) {
                 this.$refs.table.toggleSelect(_index)
             }
@@ -220,16 +254,10 @@ export default {
                 }
             });
         },
-        //确认选择人数
-        okpeople() {
-            this.leftDate.map((item, index) => {
-                this.organPeopleIds.push(item.id)
-            })
-            console.log(this.organPeopleIds)
-        },
+
         confirm() {
-            this.okpeople()
-            this.modal = false;
+            this.$emit('selectPeople', this.leftDate.map(item => item.idCard))
+            this.dialogvisible = false
         },
 
         //modal弹框新增人
@@ -248,7 +276,7 @@ export default {
                         this.loadData();
                         this.modal = false;
                     }).catch(err => {
-
+                        this.modal = false
                     })
                 }
             });

@@ -13,7 +13,7 @@
                     </li>
                     <li>
                         <div class='orginalmanage-title'>所属党组织：</div>
-                        <div class='orginalmanage-body'>{{info.lifeOrgans[0].organName}}</div>
+                        <div class='orginalmanage-body'>{{info.lifeOrgans && info.lifeOrgans[0].organName}}</div>
                     </li>
                     <li>
                         <div class='orginalmanage-title'>是否固定党日：</div>
@@ -72,13 +72,14 @@
             </div>
             </Col>
         </Row>
-        <OrinaglPlainDilaog :visible.sync='showDialog' ref='OrinaglPlainDilaog'></OrinaglPlainDilaog>
+        <OrinaglPlainDilaog @selectPeople='selectPeople' v-if="showDialog" :visible.sync='showDialog' ref='OrinaglPlainDilaog'></OrinaglPlainDilaog>
     </div>
 </template>
 <script>
 import OrinaglPlainDilaog from './components/OrinaglPlainDilaog'
 import OrganizationCascader from "@/components/OrganizationCascader";
 import { Card, Select, RadioGroup, Radio } from 'iview'
+import {ValidateTel} from '@/utils/validate'
 import {
     SignUpOrganPeople, GetOrganLifeDetails
 } from "@/api/orgazationNew";
@@ -91,17 +92,16 @@ export default {
         Radio,
         OrganizationCascader
     },
-    data() {
-        const validPhone = (rule, value, callback) => {
-            let reg = /^((13[0-9])|(14[0-9])|(15([0-9]))|(17[0-9])|(18[0-9])|(16[0-9])|(19[0-9]))[0-9]{8}$/;
-            if (!value) {
-                callback(new Error("请输入手机号"));
-            } else if (!reg.test(value)) {
-                callback(new Error("请输入正确的手机号格式"));
-            } else {
-                callback();
+    watch: {
+        'formValidate.organPeopleIds': {
+            immediate: true,
+            // deep: true,
+            handler (val) {
+                this.formValidate.organPeopleNumber = val.length
             }
-        };
+        }
+    },
+    data() {
         return {
             showDialog: false,
             formValidate: {
@@ -116,7 +116,7 @@ export default {
                     { required: true, message: '请填写联系人', trigger: 'blur' }
                 ],
                 telephoneNumber: [
-                    { required: true, trigger: 'blur', validator: validPhone }
+                    { required: true, trigger: 'blur', validator: ValidateTel }
                 ],
                 organPeopleNumber: [
                     { required: true, trigger: 'blur', message: '请选择报名人数' }
@@ -128,12 +128,15 @@ export default {
     },
     mounted() {
         // 获取用户接口
-        this.loadData()
+        // this.loadData()
     },
     methods: {
-        confirm() {
-            this.$refs.OrinaglPlainDilaog.add()
+        selectPeople (val) {
+            this.formValidate.organPeopleIds = val
         },
+        // confirm() {
+        //     this.$refs.OrinaglPlainDilaog.add()
+        // },
         loadData() {
               let id = this.$route.query.obj;
             GetOrganLifeDetails({ input: id }).then(res => {
@@ -162,8 +165,8 @@ export default {
             })
         },
 
-        add() {
-        },
+        // add() {
+        // },
         submit() {
             this.$refs['formValidate'].validate(valid => {
                 if (valid) {

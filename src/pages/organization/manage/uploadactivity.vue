@@ -13,7 +13,7 @@
                     </li>
                     <li>
                         <div class='orginalmanage-title'>所属党组织：</div>
-                        <div class='orginalmanage-body'>{{info.lifeOrgans[0].organName}}</div>
+                        <div class='orginalmanage-body'>{{info.lifeOrgans&&info.lifeOrgans[0].organName}}</div>
                     </li>
                     <li>
                         <div class='orginalmanage-title'>是否固定党日：</div>

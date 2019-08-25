@@ -13,7 +13,7 @@
                     </li>
                     <li>
                         <div class='orginalmanage-title'>所属党组织：</div>
-                       <div class='orginalmanage-body'>{{info.lifeOrgans[0].organName}}</div>
+                       <div class='orginalmanage-body'>{{info.lifeOrgans && info.lifeOrgans[0].organName}}</div>
                     </li>
                     <li>
                         <div class='orginalmanage-title'>是否固定党日：</div>
@@ -68,6 +68,7 @@
 <script>
 import { Card, Select, RadioGroup, Radio } from 'iview'
 import OrganizationCascader from "@/components/OrganizationCascader";
+import {ValidateTel} from '@/utils/validate'
 import {
     SignUpOrganPeople, GetOrganLifeDetails
 } from "@/api/orgazationNew";
@@ -79,16 +80,6 @@ export default {
         Radio
     },
     data() {
-           const validPhone = (rule, value, callback) => {
-            let reg = /^((13[0-9])|(14[0-9])|(15([0-9]))|(17[0-9])|(18[0-9])|(16[0-9])|(19[0-9]))[0-9]{8}$/;
-            if (!value) {
-                callback(new Error("请输入手机号"));
-            } else if (!reg.test(value)) {
-                callback(new Error("请输入正确的手机号格式"));
-            } else {
-                callback();
-            }
-        };
         return {
            formValidate: {
                 organLifeId: this.$store.state.session.organId,
@@ -102,7 +93,7 @@ export default {
                     { required: true, message: '请填写联系人', trigger: 'blur' }
                 ],
                 telephoneNumber: [
-                    { required: true, trigger: 'blur', validator: validPhone }
+                    { required: true, trigger: 'blur', validator: ValidateTel }
                 ],
                 organPeopleNumber: [
                     { required: true, trigger: 'blur', message: '请选择报名人数' }

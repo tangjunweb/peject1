@@ -65,7 +65,7 @@
   </div>
 </template>
 <script>
-import { Tree, Table, Card, Page, Select, DatePicker } from "iview";
+import { Tree, Table, Card, Page, Select, DatePicker,Option } from "iview";
 import { SkipCount, ClearParams } from "@/mixins";
 import { getNowFormatDate } from '@/utils/util'
 import {
@@ -78,7 +78,7 @@ export default {
     Tree,
     Table,
     Card,
-    Page, Select, DatePicker,OrganizationSelect
+    Page, Select, DatePicker,OrganizationSelect,Option
   },
   data() {
     return {

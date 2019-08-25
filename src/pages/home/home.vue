@@ -101,7 +101,7 @@ export default {
   data() {
     return {
       loading: false,
-    //  menu: nav
+      menu: nav
     };
   },
   mounted() {
